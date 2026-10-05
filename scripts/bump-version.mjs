@@ -1,0 +1,15 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=fileURLToPath(new URL('../',import.meta.url)),mode=process.argv[2]||'patch';
+if(!['patch','minor','major'].includes(mode))throw Error('Usage: node scripts/bump-version.mjs patch|minor|major');
+const paths=['package.json','package-lock.json','README.md'].map(p=>resolve(root,p));
+const pkg=JSON.parse(readFileSync(paths[0],'utf8')),lock=JSON.parse(readFileSync(paths[1],'utf8')),readme=readFileSync(paths[2],'utf8');
+if(!/^\d+\.\d+\.\d+$/.test(pkg.version)||lock.version!==pkg.version||lock.packages[''].version!==pkg.version)throw Error('Package and lock versions must match before incrementing');
+const parts=pkg.version.split('.').map(Number),index={major:0,minor:1,patch:2}[mode];parts[index]++;for(let i=index+1;i<3;i++)parts[i]=0;
+const version=parts.join('.'),marker=/<!-- app-version:start -->\n当前版本：\*\*v\d+\.\d+\.\d+\*\*/;
+if(!marker.test(readme))throw Error('README version marker is missing');
+pkg.version=lock.version=lock.packages[''].version=version;
+const updatedReadme=readme.replace(marker,`<!-- app-version:start -->\n当前版本：**v${version}**`);
+for(const[path,value]of[[paths[0],JSON.stringify(pkg,null,2)+'\n'],[paths[1],JSON.stringify(lock,null,2)+'\n'],[paths[2],updatedReadme]])writeFileSync(path,value);
+console.log(`Updated package, lock and README to v${version}; build and verify before publishing.`);

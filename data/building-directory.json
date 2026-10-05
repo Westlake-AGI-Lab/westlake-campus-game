@@ -1,0 +1,1564 @@
+{
+  "checkedAt": "2026-10-05",
+  "campus": "西湖大学云谷校区",
+  "sources": {
+    "guide": {
+      "title": "西湖大学设施管理部：云谷校园导览",
+      "url": "https://facilities.westlake.edu.cn/info/1063/1862.htm",
+      "basis": "导览图中的 C 生活区分类及位置、公共楼宇；学术楼组名称存在与实际实验室地址相反的标注，后者优先。"
+    },
+    "life": {
+      "title": "生命科学学院 E7-101 建设公告",
+      "url": "https://construction.westlake.edu.cn/info/1076/1837.htm",
+      "basis": "生命科学学院位于 E7。"
+    },
+    "life6": {
+      "title": "校建部建设公告列表：生命科学学院 CBD E6-109",
+      "url": "https://construction.westlake.edu.cn/zbxx/16.htm",
+      "basis": "生命科学学院位于 E6。"
+    },
+    "medicine": {
+      "title": "谢琦实验室官方地址",
+      "url": "https://xieqi.lab.westlake.edu.cn/index_cn.html",
+      "basis": "基础医学楼 E8-201。"
+    },
+    "library": {
+      "title": "西湖大学图书馆官方页面",
+      "url": "https://en.westlake.edu.cn/academics/library/",
+      "basis": "云谷图书馆 E12 二至四层。"
+    },
+    "research": {
+      "title": "交叉科学中心官方介绍",
+      "url": "https://cis.westlake.edu.cn/info/1008/1018.htm",
+      "basis": "科研中心 E14 南楼。"
+    },
+    "teaching": {
+      "title": "交叉科学中心官方活动地点",
+      "url": "https://cis.westlake.edu.cn/",
+      "basis": "活动记录使用 E13-112；教学中心名称与导览图及公开地图交叉核对。"
+    },
+    "activity": {
+      "title": "校工会活动：C16 师生活动中心",
+      "url": "https://dq.westlake.edu.cn/info/1154/2324.htm",
+      "basis": "师生活动中心 C16。"
+    },
+    "canteens": {
+      "title": "西湖大学采购主页：2026 食堂经营及 H6 实验室公告",
+      "url": "https://procurement.westlake.edu.cn/sfw_cms/e?page=cms.index",
+      "basis": "2026 年公告明确列出 C18、C19、F17 食堂；H6 实验室改建。"
+    },
+    "c17": {
+      "title": "校工会夏季慰问 C17 食堂",
+      "url": "https://dq.westlake.edu.cn/info/1154/2374.htm",
+      "basis": "C17 为食堂。"
+    },
+    "clinic": {
+      "title": "学校医学院：校医务室正式运行",
+      "url": "https://medicine.westlake.edu.cn/News/202412/t20241227_51362.shtml",
+      "basis": "校方使用医务室名称；G1 代码和模型位置依据公开地图，官方文章未提供楼号。"
+    },
+    "osm": {
+      "title": "OpenStreetMap 原始楼宇数据",
+      "url": "https://www.openstreetmap.org/copyright",
+      "basis": "楼宇代码及轮廓位置的公开地图依据；并非校方核准名单。坐标整体配准到已有估计尺度模型，未作独立测绘。"
+    }
+  },
+  "corrections": [
+    "C1 与 C8、C10 与 C13 在旧模型中的楼号互换，本次依导览图轮廓及公开地图位置纠正。",
+    "F1–F17 位于北侧生活区，与南侧 C 系列共存；删除错误的 C17/F17、C18/F18 同楼别名。",
+    "生命科学楼为 E6/E7，基础医学楼为 E8/E9，实验室及工程公告地址优先于导览图误标。",
+    "科研中心采用校方 E14，拒绝公开地图旧标 E11；E11 属实验动物中心。",
+    "F17 为食堂，F16 为教工之家；不沿用旧模型相反的功能名称。"
+  ],
+  "buildings": [
+    {
+      "id": "E0",
+      "name": "学术会堂",
+      "codes": [
+        "E0"
+      ],
+      "aliases": [
+        "会堂",
+        "报告厅"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1044735126"
+      ],
+      "note": ""
+    },
+    {
+      "id": "E10",
+      "name": "学术环",
+      "codes": [
+        "E10"
+      ],
+      "aliases": [
+        "学术圈"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1044735117"
+      ],
+      "note": ""
+    },
+    {
+      "id": "E1-E3",
+      "name": "工学楼",
+      "codes": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "aliases": [
+        "工学院",
+        "工程楼"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1044735122",
+        "https://www.openstreetmap.org/way/1392538177",
+        "https://www.openstreetmap.org/way/1044735121"
+      ],
+      "note": ""
+    },
+    {
+      "id": "E4-E5",
+      "name": "理学楼",
+      "codes": [
+        "E4",
+        "E5"
+      ],
+      "aliases": [
+        "理学院"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1044735119",
+        "https://www.openstreetmap.org/way/1044735118"
+      ],
+      "note": ""
+    },
+    {
+      "id": "E6-E7",
+      "name": "生命科学楼",
+      "codes": [
+        "E6",
+        "E7"
+      ],
+      "aliases": [
+        "生命科学学院",
+        "生科楼"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "life",
+        "life6",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1044735125",
+        "https://www.openstreetmap.org/way/1392538178"
+      ],
+      "note": ""
+    },
+    {
+      "id": "E8-E9",
+      "name": "基础医学楼",
+      "codes": [
+        "E8",
+        "E9"
+      ],
+      "aliases": [
+        "医学院",
+        "医学楼"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "medicine",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1044735124",
+        "https://www.openstreetmap.org/way/1044735123"
+      ],
+      "note": ""
+    },
+    {
+      "id": "library",
+      "name": "图书中心",
+      "codes": [
+        "E12"
+      ],
+      "aliases": [
+        "图书馆",
+        "图书楼"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "library",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909084"
+      ],
+      "note": ""
+    },
+    {
+      "id": "teaching",
+      "name": "教学中心",
+      "codes": [
+        "E13"
+      ],
+      "aliases": [
+        "教学楼",
+        "教室"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "teaching",
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909091"
+      ],
+      "note": ""
+    },
+    {
+      "id": "research",
+      "name": "科研中心",
+      "codes": [
+        "E14"
+      ],
+      "aliases": [
+        "交叉科学中心",
+        "科研楼"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "research"
+      ],
+      "mapSources": [],
+      "note": ""
+    },
+    {
+      "id": "animal",
+      "name": "实验动物中心",
+      "codes": [
+        "E11"
+      ],
+      "aliases": [
+        "动物房",
+        "动物中心一期"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084289989"
+      ],
+      "note": ""
+    },
+    {
+      "id": "A1",
+      "name": "行政楼",
+      "codes": [
+        "A1"
+      ],
+      "aliases": [
+        "行政中心"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084289998"
+      ],
+      "note": ""
+    },
+    {
+      "id": "A2",
+      "name": "师生服务中心",
+      "codes": [
+        "A2"
+      ],
+      "aliases": [
+        "服务中心"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084289997"
+      ],
+      "note": ""
+    },
+    {
+      "id": "C16",
+      "name": "师生活动中心",
+      "codes": [
+        "C16"
+      ],
+      "aliases": [
+        "教师活动中心",
+        "羽毛球馆"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "activity",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290029"
+      ],
+      "note": ""
+    },
+    {
+      "id": "canteen-west",
+      "name": "食堂",
+      "codes": [
+        "C17"
+      ],
+      "aliases": [
+        "学生食堂",
+        "C区食堂"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "c17",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290027"
+      ],
+      "note": ""
+    },
+    {
+      "id": "F18",
+      "name": "食堂",
+      "codes": [
+        "C18"
+      ],
+      "aliases": [
+        "学生食堂",
+        "C区食堂"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "canteens",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290028"
+      ],
+      "note": ""
+    },
+    {
+      "id": "C19",
+      "name": "食堂",
+      "codes": [
+        "C19"
+      ],
+      "aliases": [
+        "学生食堂",
+        "C区食堂"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "canteens",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290030"
+      ],
+      "note": ""
+    },
+    {
+      "id": "faculty-1",
+      "name": "食堂",
+      "codes": [
+        "F17"
+      ],
+      "aliases": [
+        "北区食堂",
+        "F区食堂"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "canteens",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909163"
+      ],
+      "note": ""
+    },
+    {
+      "id": "north-canteen",
+      "name": "教工之家",
+      "codes": [
+        "F16"
+      ],
+      "aliases": [
+        "职工之家",
+        "教师之家"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909154"
+      ],
+      "note": ""
+    },
+    {
+      "id": "faculty-2",
+      "name": "北侧生活区楼宇",
+      "codes": [
+        "F8"
+      ],
+      "aliases": [
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909148"
+      ],
+      "note": ""
+    },
+    {
+      "id": "training",
+      "name": "实验实训楼",
+      "codes": [
+        "H6"
+      ],
+      "aliases": [
+        "实训中心",
+        "实训楼"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "canteens",
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1089412888"
+      ],
+      "note": ""
+    },
+    {
+      "id": "H5",
+      "name": "学生活动中心 / 食堂",
+      "codes": [
+        "H5"
+      ],
+      "aliases": [
+        "本科生食堂",
+        "学生活动中心"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1089412880",
+        "https://www.openstreetmap.org/way/1089412881"
+      ],
+      "note": ""
+    },
+    {
+      "id": "general",
+      "name": "医务室",
+      "codes": [
+        "G1"
+      ],
+      "aliases": [
+        "校医院",
+        "通识教育中心"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "clinic",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1086146160"
+      ],
+      "note": ""
+    },
+    {
+      "id": "animal-north",
+      "name": "实验动物中心二期",
+      "codes": [
+        "G3"
+      ],
+      "aliases": [
+        "动物房二期"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1089412872"
+      ],
+      "note": ""
+    },
+    {
+      "id": "support",
+      "name": "后勤综合楼",
+      "codes": [
+        "G2"
+      ],
+      "aliases": [
+        "后勤楼"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1089412873"
+      ],
+      "note": ""
+    },
+    {
+      "id": "sports",
+      "name": "综合体育馆",
+      "codes": [
+        "J1"
+      ],
+      "aliases": [
+        "体育中心",
+        "体育馆"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290001"
+      ],
+      "note": ""
+    },
+    {
+      "id": "sports-south",
+      "name": "体育配套用房",
+      "codes": [
+        "J2"
+      ],
+      "aliases": [
+        "体育配套楼"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087634246"
+      ],
+      "note": ""
+    },
+    {
+      "id": "hazard-store",
+      "name": "危化品库房",
+      "codes": [
+        "F0"
+      ],
+      "aliases": [
+        "化学品库房"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1086861435"
+      ],
+      "note": ""
+    },
+    {
+      "id": "H1",
+      "name": "本科生书院",
+      "codes": [
+        "H1"
+      ],
+      "aliases": [
+        "本科生公寓",
+        "书院"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1086146163"
+      ],
+      "note": ""
+    },
+    {
+      "id": "H2",
+      "name": "本科生书院",
+      "codes": [
+        "H2"
+      ],
+      "aliases": [
+        "本科生公寓",
+        "书院"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1086146164"
+      ],
+      "note": ""
+    },
+    {
+      "id": "H3",
+      "name": "本科生书院",
+      "codes": [
+        "H3"
+      ],
+      "aliases": [
+        "本科生公寓",
+        "书院"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1089412875"
+      ],
+      "note": ""
+    },
+    {
+      "id": "H4",
+      "name": "本科生书院",
+      "codes": [
+        "H4"
+      ],
+      "aliases": [
+        "本科生公寓",
+        "书院"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1089412876"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-13",
+      "name": "研究生公寓",
+      "codes": [
+        "C15"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290045"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-14",
+      "name": "研究生公寓",
+      "codes": [
+        "C14"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290044"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-15",
+      "name": "研究生公寓",
+      "codes": [
+        "C13"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290043"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-16",
+      "name": "博士后公寓",
+      "codes": [
+        "C10"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290042"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-17",
+      "name": "研究生公寓",
+      "codes": [
+        "C11"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290040"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-18",
+      "name": "研究生公寓",
+      "codes": [
+        "C12"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290041"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-19",
+      "name": "博士后公寓",
+      "codes": [
+        "C9"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290039"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-20",
+      "name": "教师周转公寓",
+      "codes": [
+        "C5"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区",
+        "教师公寓",
+        "教工公寓"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290037"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-21",
+      "name": "教师周转公寓",
+      "codes": [
+        "C1"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区",
+        "教师公寓",
+        "教工公寓"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290036"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-22",
+      "name": "博士后公寓",
+      "codes": [
+        "C8"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290038"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-23",
+      "name": "博士后公寓",
+      "codes": [
+        "C7"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290031"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-24",
+      "name": "教师周转公寓",
+      "codes": [
+        "C4"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区",
+        "教师公寓",
+        "教工公寓"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290033"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-25",
+      "name": "教师周转公寓",
+      "codes": [
+        "C2"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区",
+        "教师公寓",
+        "教工公寓"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290035"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-26",
+      "name": "教师周转公寓",
+      "codes": [
+        "C3"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区",
+        "教师公寓",
+        "教工公寓"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290034"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-27",
+      "name": "教师周转公寓",
+      "codes": [
+        "C6"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "C区",
+        "教师公寓",
+        "教工公寓"
+      ],
+      "basis": "校方资料与公开地图交叉核对",
+      "sources": [
+        "guide",
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1084290032"
+      ],
+      "note": ""
+    },
+    {
+      "id": "res-1",
+      "name": "生活区公寓",
+      "codes": [
+        "F12"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1088513748"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "res-2",
+      "name": "生活区公寓",
+      "codes": [
+        "F14"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1089606310"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "res-3",
+      "name": "生活区公寓",
+      "codes": [
+        "F13"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909160"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "res-4",
+      "name": "生活区公寓",
+      "codes": [
+        "F15"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909161"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "res-5",
+      "name": "生活区公寓",
+      "codes": [
+        "F9"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909159"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "res-6",
+      "name": "生活区公寓",
+      "codes": [
+        "F10"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909156"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "res-7",
+      "name": "生活区公寓",
+      "codes": [
+        "F11"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909155"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "res-8",
+      "name": "生活区公寓",
+      "codes": [
+        "F5"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909153"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "res-9",
+      "name": "生活区公寓",
+      "codes": [
+        "F4"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909149"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "res-10",
+      "name": "生活区公寓",
+      "codes": [
+        "F1"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909150"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "res-11",
+      "name": "生活区公寓",
+      "codes": [
+        "F3"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909142"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "res-12",
+      "name": "生活区公寓",
+      "codes": [
+        "F2"
+      ],
+      "aliases": [
+        "宿舍",
+        "公寓",
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909143"
+      ],
+      "note": "官方公开资料未逐栋说明入住人群，不标为特定师生类别。"
+    },
+    {
+      "id": "map-F6",
+      "name": "北侧生活区楼宇",
+      "codes": [
+        "F6"
+      ],
+      "aliases": [
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909145"
+      ],
+      "note": "公开地图轮廓补入原模型的空缺；建筑高度和立面简化估计，具体功能尚无官方来源。",
+      "geometry": {
+        "x": -403.37,
+        "z": -188.07,
+        "w": 31.39,
+        "d": 18.0,
+        "h": 7
+      },
+      "geographicOutline": [
+        [
+          30.3374029,
+          120.0285446
+        ],
+        [
+          30.3374079,
+          120.0287869
+        ],
+        [
+          30.3372913,
+          120.0287902
+        ],
+        [
+          30.3372863,
+          120.0285478
+        ]
+      ]
+    },
+    {
+      "id": "map-F7",
+      "name": "北侧生活区楼宇",
+      "codes": [
+        "F7"
+      ],
+      "aliases": [
+        "F区"
+      ],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [
+        "osm"
+      ],
+      "mapSources": [
+        "https://www.openstreetmap.org/way/1087909147"
+      ],
+      "note": "公开地图轮廓补入原模型的空缺；建筑高度和立面简化估计，具体功能尚无官方来源。",
+      "geometry": {
+        "x": -367.93,
+        "z": -252.87,
+        "w": 31.39,
+        "d": 18.0,
+        "h": 7
+      },
+      "geographicOutline": [
+        [
+          30.3378406,
+          120.0288219
+        ],
+        [
+          30.3378457,
+          120.0290642
+        ],
+        [
+          30.3377291,
+          120.0290675
+        ],
+        [
+          30.3377241,
+          120.0288251
+        ]
+      ]
+    },
+    {
+      "id": "beacon",
+      "name": "图书中心 · 光锥",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "exchange",
+      "name": "学术交流中心 / 万信酒店",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "southgate",
+      "name": "南校门",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "northgate",
+      "name": "北校门",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "logistics",
+      "name": "北入口配套楼 · 东",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "swing",
+      "name": "试剂周转房",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "faculty-3",
+      "name": "讲席教授公寓 1",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "faculty-4",
+      "name": "讲席教授公寓 2",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "faculty-5",
+      "name": "讲席教授公寓 3",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "faculty-6",
+      "name": "讲席教授公寓 4",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "faculty-7",
+      "name": "讲席教授公寓 5",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "faculty-8",
+      "name": "讲席教授公寓 6",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "faculty-9",
+      "name": "讲席教授公寓 7",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "faculty-10",
+      "name": "讲席教授公寓 8",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "faculty-11",
+      "name": "讲席教授公寓 9",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "faculty-12",
+      "name": "讲席教授公寓 10",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "hotel",
+      "name": "水岸配套楼",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "north-quad-1",
+      "name": "北入口配套楼 1",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "north-quad-2",
+      "name": "北入口配套楼 2",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "north-quad-3",
+      "name": "北入口配套楼 3",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    },
+    {
+      "id": "professor-11",
+      "name": "讲席教授公寓 11",
+      "codes": [],
+      "aliases": [],
+      "basis": "公开地图编号；名称为功能描述",
+      "sources": [],
+      "mapSources": [],
+      "note": "未找到可确认的公开楼号，保留描述性名称，不猜造代号。"
+    }
+  ],
+  "attribution": "© OpenStreetMap contributors, ODbL 1.0; https://www.openstreetmap.org/copyright",
+  "mapAlignment": {
+    "lat0": 30.334271643290815,
+    "lon0": 120.03028498982424,
+    "scale": 1.331175190511465,
+    "shift": [
+      -196.64559524103552,
+      267.15714285719287
+    ],
+    "description": "整体估计配准：x=scale*(lon-lon0)*96000+shift[0]，z=-scale*(lat-lat0)*111195+shift[1]。供模型复现，不表示 GPS 或测绘精度。"
+  }
+}

@@ -1,0 +1,9 @@
+import {campus,insideBox} from '../shared/world';
+import type {Box} from '../shared/types';
+import {writeFileSync} from 'node:fs';
+function corners(b:Box){const c=Math.cos(b.rotation),s=Math.sin(b.rotation);return [-1,1].flatMap(x=>[-1,1].map(z=>({x:b.x+c*x*b.w/2-s*z*b.d/2,z:b.z+s*x*b.w/2+c*z*b.d/2})));}
+function touch(a:Box,b:Box){const aa=corners(a),bb=corners(b);for(const rot of[a.rotation,b.rotation])for(const axis of[{x:Math.cos(rot),z:Math.sin(rot)},{x:-Math.sin(rot),z:Math.cos(rot)}]){const av=aa.map(p=>p.x*axis.x+p.z*axis.z),bv=bb.map(p=>p.x*axis.x+p.z*axis.z);if(Math.max(...av)+.15<Math.min(...bv)||Math.max(...bv)+.15<Math.min(...av))return false;}return true;}
+const loop=campus.buildings.find(b=>b.id==='E10')!;
+const ring=Array.from({length:2401},(_,i)=>{const angle=loop.arc![1]*Math.PI/180*i/2400;return {x:Math.cos(angle)*(loop.outerRadius!-.1),z:Math.sin(angle)*(loop.outerRadius!-.1)};});
+const results=['E1-E3','E4-E5','E6-E7','E8-E9'].map(id=>{const b=campus.buildings.find(b=>b.id===id)!,parts=b.parts!.map(p=>({...p,rotation:p.rotation||0})),pending=new Set(parts.map((_,i)=>i)),components=[];while(pending.size){const group=[pending.values().next().value!];pending.delete(group[0]);for(let q=0;q<group.length;q++)for(const n of pending)if(touch(parts[group[q]],parts[n])){group.push(n);pending.delete(n);}components.push({parts:group,joinsRing:group.some(n=>ring.some(p=>insideBox(p,parts[n],.15)))});}return {id,wingParts:parts.length,components,status:components.every(v=>v.joinsRing)?'PASS':'FAIL'};});
+writeFileSync('reports/core-connectivity.json',JSON.stringify({method:'Independent separating-axis intersection graph; sample actual outside loop edge every 0.1 degree; every disconnected wing component must contact the loop',results},null,2));console.log(results);if(results.some(v=>v.status==='FAIL'))process.exitCode=1;

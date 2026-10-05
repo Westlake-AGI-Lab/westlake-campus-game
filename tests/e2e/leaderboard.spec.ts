@@ -1,0 +1,6 @@
+import {test,expect} from '@playwright/test';import {registerPage} from '../account-helpers';
+test('历史榜单：切换、刷新、关闭、手机布局与公开名字',async({page})=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await registerPage(page);await page.locator('#leaderboard-toggle').click();await expect(page.locator('#board-me')).toContainText('我的名次');await expect(page.locator('#board-status')).not.toContainText('正在读取');await expect(page.locator('#leaderboard-modal')).toContainText('包含离线玩家');
+ await page.locator('#board-deaths').click();await expect(page.locator('#board-deaths')).toHaveAttribute('aria-selected','true');await page.locator('#board-refresh').click();await expect(page.locator('#board-status')).not.toContainText('正在读取');await page.screenshot({path:'reports/screenshots/leaderboard.png'});
+ await page.keyboard.press('Escape');await expect(page.locator('#leaderboard-modal')).toBeHidden();await page.setViewportSize({width:390,height:844});await expect(page.locator('#leaderboard-toggle')).toBeInViewport();await page.locator('#leaderboard-toggle').click();await expect(page.locator('#leaderboard-close')).toBeInViewport();await expect(page.locator('#board-refresh')).toBeInViewport();await page.screenshot({path:'reports/screenshots/leaderboard-mobile.png'});await page.locator('#leaderboard-close').click();expect(errors).toEqual([]);
+});

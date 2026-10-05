@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'tests/e2e',timeout:180000,workers:1,fullyParallel:false,reporter:[['list'],['json',{outputFile:'reports/playwright-results.json'}]],use:{channel:'chrome',baseURL:process.env.TEST_URL||'http://127.0.0.1:3000',viewport:{width:1280,height:720},deviceScaleFactor:1,trace:'on',screenshot:'only-on-failure',video:'on',launchOptions:{args:[]}},webServer:process.env.TEST_URL?undefined:{command:'npm start',url:'http://127.0.0.1:3000/health',reuseExistingServer:true,timeout:30000}});

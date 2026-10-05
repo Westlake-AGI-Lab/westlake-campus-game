@@ -1,0 +1,639 @@
+{
+  "scope": "Every named campus area, full plan block-by-block and individual facade references",
+  "regions": [
+    {
+      "id": "academic-loop",
+      "name": "学术环与四学院科研院落",
+      "objectIds": [
+        "E10",
+        "E1-E3",
+        "E4-E5",
+        "E6-E7",
+        "E8-E9"
+      ],
+      "planBounds": [
+        400,
+        555,
+        950,
+        950
+      ],
+      "requirements": [
+        "院落与主环必须连续连接",
+        "E1–E9 科研楼及八组院落短边连接",
+        "斜幕墙、白框与屋顶设备"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "HENN-henn_westlakeuniversity_plan_ground_floor",
+        "skyline-2025-2",
+        "OFFICIAL-ENGINEERING",
+        "OFFICIAL-SCIENCE",
+        "OFFICIAL-MEDICINE",
+        "OFFICIAL-LIFE"
+      ],
+      "findings": [
+        "补回首层描图遗漏的工学连接段，延长其返回翼楼；另外补上工学与理学短连接。28 段描图及 2 段延续共 30 段，形成八组接环院落，覆盖 E1–E9。",
+        "保留四/五层差异、学院立面色彩、白框长窗及主环斜幕墙、连续遮阳带、柱廊和天窗。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/academic-loop.png",
+        "gameView": "reports/screenshots/view-region-academic-loop.png",
+        "viewId": "region-academic-loop",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "connectivity": "reports/core-connectivity.json",
+        "gameViewSha256": "a45b92ae8a25246b5436daae8ac3b17ba00e49603443ab9d82f9009e08808d4d",
+        "planCropSha256": "388b7039f077f2cceda8cc93909a07f4a55301a1d00ab6747dad3fadf7e94753"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.552421+00:00"
+    },
+    {
+      "id": "central-park",
+      "name": "中央庭园与学术会堂",
+      "objectIds": [
+        "E0"
+      ],
+      "planBounds": [
+        545,
+        515,
+        845,
+        815
+      ],
+      "requirements": [
+        "偏心圆鼓、柱廊与多层屋面",
+        "径向步道与环形步道",
+        "植物和广场的位置"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "OFFICIAL-HALL",
+        "HENN-henn_westlakeuniversity_05_core",
+        "skyline-2025-13"
+      ],
+      "findings": [
+        "按总图恢复非对称径向步道、弧形步道和 S 形中轴；步道避开会堂和学术环。",
+        "保留偏心圆鼓、周边细柱及层叠屋面；广场铺装改为自制错缝石板纹理，植被位置仍作区域化简化。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/central-park.png",
+        "gameView": "reports/screenshots/view-region-central-park.png",
+        "viewId": "region-central-park",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "bba3be6189f0bc87462508ae2711140601bf08d62d463e7b8fd4bc69f9d2ee7a",
+        "planCropSha256": "ecbcf90201ac81d83372ac3b0b7cb2ac207a81f3ee0a8ef92bc30d39aa8fd530"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.553269+00:00"
+    },
+    {
+      "id": "library",
+      "name": "图书中心与光锥",
+      "objectIds": [
+        "library",
+        "beacon"
+      ],
+      "planBounds": [
+        495,
+        385,
+        675,
+        515
+      ],
+      "requirements": [
+        "退台方向与塔的位置",
+        "阶梯前场与连接北主轴",
+        "细密竖向幕墙"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "phase3-library",
+        "HENN-henn_westlakeuniversity_03_aerial",
+        "HENN-henn_westlakeuniversity_section_library"
+      ],
+      "findings": [
+        "用四层错位退台代替单一方盒，恢复光锥相对位置和细密竖向玻璃分格；不在图书中心顶面套用科研楼设备。",
+        "北主轴前场、图书中心侧台阶与平台使用共享高程数据；光锥高度按图纸估算。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/library.png",
+        "gameView": "reports/screenshots/view-region-library.png",
+        "viewId": "region-library",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "41225292c5889f63692fbda85fda9bacad73310b8603651a9ee5d809f736f77b",
+        "planCropSha256": "2596fc18d36508067c9c48ce596d6572d2aea52d55fdb843a1b6a6d4bcb9dd2e"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.553970+00:00"
+    },
+    {
+      "id": "north-academics",
+      "name": "教学中心与科研中心",
+      "objectIds": [
+        "teaching",
+        "research"
+      ],
+      "planBounds": [
+        700,
+        395,
+        985,
+        635
+      ],
+      "requirements": [
+        "名称位置核对",
+        "连成院落的翼楼",
+        "白框、庭院、退台与入口"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "phase3-teaching",
+        "phase3-research",
+        "skyline-2025-1"
+      ],
+      "findings": [
+        "纠正教学中心与科研中心的名称和位置；每栋以四个相接体量恢复院落轮廓。",
+        "教学中心效果图只用于辅助体量，科研中心施工照片和全景用于交叉核对；保留白框、窗带及楼层差别。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/north-academics.png",
+        "gameView": "reports/screenshots/view-region-north-academics.png",
+        "viewId": "region-north-academics",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "242d4afcee55e97e47953653709df73ab44d4ad867c798275c2ee50da6e93830",
+        "planCropSha256": "f41446df8382e87e2a972de057f56913f719edfe98c474f0f648e8f9550e1656"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.554359+00:00"
+    },
+    {
+      "id": "north-services",
+      "name": "北门与实训后勤区",
+      "objectIds": [
+        "northgate",
+        "training",
+        "general",
+        "logistics",
+        "animal-north",
+        "support",
+        "swing",
+        "north-quad-1",
+        "north-quad-2",
+        "north-quad-3"
+      ],
+      "planBounds": [
+        150,
+        100,
+        1050,
+        310
+      ],
+      "requirements": [
+        "实验实训楼连续院落",
+        "动物中心和后勤名称位置",
+        "通识、试剂周转及北门外形"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "phase3-training",
+        "skyline-2025-1"
+      ],
+      "findings": [
+        "重描实训 U 形院落、通识折线围合、三段后勤综合楼、动物中心和试剂周转房。",
+        "补入北入口遗漏的三栋配套楼，北门改为四根独立细柱，校内道路绕开门柱和楼体。未确认编号的配套楼采用一般名称。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/north-services.png",
+        "gameView": "reports/screenshots/view-region-north-services.png",
+        "viewId": "region-north-services",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "6aa241c1bfe32964a242b19e6c9b4729e4ccf3eceaca36a9001d5a69897b6c19",
+        "planCropSha256": "8ea2176b5c89db3e8ebac2d7ee4afd64ef0553de98c3e2489315003d9ea9291e"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.554810+00:00"
+    },
+    {
+      "id": "colleges",
+      "name": "本科生书院 H1–H4",
+      "objectIds": [
+        "H1",
+        "H2",
+        "H3",
+        "H4"
+      ],
+      "planBounds": [
+        1090,
+        210,
+        1245,
+        575
+      ],
+      "requirements": [
+        "四书院不同围合轮廓",
+        "红白立面与退台",
+        "书院入口和相邻道路"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "college-2025-1",
+        "phase3-college",
+        "skyline-2025-1"
+      ],
+      "findings": [
+        "逐栋重描 H1–H4 的不同开口方向和连体轮廓，避免四栋复用同一方框。",
+        "H1/H2 使用红色楼身与白色窗框；H3/H4 使用白色楼身与橙色突出窗框。H4 立面与官方 2025 具名实景核对。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/colleges.png",
+        "gameView": "reports/screenshots/view-region-colleges.png",
+        "viewId": "region-colleges",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "ab544a111b19706f2ff1f05e568d569c2822ee7e8bafee630fc97d0097f6d547",
+        "planCropSha256": "c82766adeca407836779fafbf207e8d7cf6f6607c4fa2e7effd0de7b56f76dae"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.555387+00:00"
+    },
+    {
+      "id": "student-center",
+      "name": "学生活动中心 / 食堂 H5",
+      "objectIds": [
+        "H5"
+      ],
+      "planBounds": [
+        975,
+        315,
+        1080,
+        410
+      ],
+      "requirements": [
+        "双体量连接、外楼梯、竖向格栅",
+        "庭院与书院步道"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "phase3-H5",
+        "skyline-2025-1"
+      ],
+      "findings": [
+        "H5 改为相接主楼、小体量及连接部，主楼四面补竖向格栅。",
+        "外楼梯、顶部平台与栏杆按施工照片方向补入；楼梯渲染和玩家高程共用参数。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/student-center.png",
+        "gameView": "reports/screenshots/view-region-student-center.png",
+        "viewId": "region-student-center",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "abcbca180c5e5ef9e7c9bff02911771f5afb45760cb7bfbae15e453f80f039e2",
+        "planCropSha256": "aa7b59c0aac08722aa8dd80b1b5e89f7968093785185fc3abbe290facf877f66"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.555880+00:00"
+    },
+    {
+      "id": "sports",
+      "name": "体育中心、田径场与球场",
+      "objectIds": [
+        "sports",
+        "sports-south"
+      ],
+      "planBounds": [
+        1000,
+        665,
+        1245,
+        1040
+      ],
+      "requirements": [
+        "体育馆长条幕墙与下凹跨屋面",
+        "田径场和篮球排球网球数量位置",
+        "入口桥与河道弯曲"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "phase3-sports",
+        "skyline-2025-1"
+      ],
+      "findings": [
+        "体育馆改为长条玻璃幕墙和两端高、中央下凹的跨屋面，修正南侧配套楼尺度。",
+        "保留东侧田径场，删除总图不支持的东南第二椭圆跑道；逐块核对篮球、排球、网球场位置并补篮架、网和划线。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/sports.png",
+        "gameView": "reports/screenshots/view-region-sports.png",
+        "viewId": "region-sports",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "3e46157d79ca2816c0265d8f6638eb0f3450478accfa1cf9064d2588a76166e1",
+        "planCropSha256": "693ed8a101d1ab7497f65464fd954879b0109d4c31533e7332040b914cf4a8e5"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.556153+00:00"
+    },
+    {
+      "id": "south-entry",
+      "name": "南校门、A1 与 A2",
+      "objectIds": [
+        "southgate",
+        "A1",
+        "A2"
+      ],
+      "planBounds": [
+        510,
+        1035,
+        845,
+        1220
+      ],
+      "requirements": [
+        "弧形立面与层叠圆顶",
+        "真正门体尺度与形状",
+        "轴线广场、花池、中央台阶"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "skyline-2025-7",
+        "HENN-henn_westlakeuniversity_02_aerial_0"
+      ],
+      "findings": [
+        "A1/A2 增加白色抛物线立面、竖向框架、橙色条格及九层退台圆顶，使用实景桥边和航拍交叉核对。",
+        "恢复南入口中轴广场、花池与中央台阶；南门以导览和总图为依据，门体近景细节仍为估计。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/south-entry.png",
+        "gameView": "reports/screenshots/view-region-south-entry.png",
+        "viewId": "region-south-entry",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "c6485d9b045349c3a1f8ec3493cd2ee3545296cd97c68af1becbde0db0fb0c7d",
+        "planCropSha256": "4a7f262b97228a0070cb9d14b5c5b5dcc4651454dce7874a63fe3857b6f4d602"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.556681+00:00"
+    },
+    {
+      "id": "south-east",
+      "name": "学术交流中心与万信酒店",
+      "objectIds": [
+        "exchange",
+        "hotel"
+      ],
+      "planBounds": [
+        800,
+        965,
+        945,
+        1205
+      ],
+      "requirements": [
+        "椭圆斜顶塔、裙房与庭院",
+        "酒店身份与位置",
+        "水岸、道路及周边连接"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "OFFICIAL-CONFERENCE-VENUE",
+        "HENN-henn_westlakeuniversity_03_aerial"
+      ],
+      "findings": [
+        "交流中心改为椭圆幕墙、斜切顶面及宽裙房，修正顶面和幕墙网格面朝向。",
+        "官方会议地址说明学术交流中心与万信酒店为同一建筑；原来另标酒店的小楼改为水岸配套楼，按总图重描低层三连体。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/south-east.png",
+        "gameView": "reports/screenshots/view-region-south-east.png",
+        "viewId": "region-south-east",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "a13db8cc1acf1ba18b777bf78e836c5b667df6b9d364a7565cb06b3c9cded98e",
+        "planCropSha256": "e18c607a5d76f5135281e1e83ddd40fe7e475e06f9e617b7a43a97510807e44f"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.557118+00:00"
+    },
+    {
+      "id": "west-north",
+      "name": "北西研究生 / 博士后与教师之家",
+      "objectIds": [
+        "faculty-1",
+        "faculty-2",
+        "north-canteen",
+        "animal",
+        "res-1",
+        "res-2",
+        "res-3",
+        "res-4",
+        "res-5",
+        "res-6",
+        "res-7",
+        "res-8",
+        "res-9",
+        "res-10",
+        "res-11",
+        "res-12",
+        "map-F6",
+        "map-F7"
+      ],
+      "planBounds": [
+        160,
+        250,
+        500,
+        575
+      ],
+      "requirements": [
+        "高层住宅条形及凹凸轮廓",
+        "教师之家与周转公寓",
+        "东西步道和道路"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "HENN-henn_westlakeuniversity_01_aerial_0_0",
+        "skyline-2025-1"
+      ],
+      "findings": [
+        "逐栋重描 12 栋北西公寓的凹凸条形轮廓，补窗带和阳台；恢复教师之家三连体和北区食堂。",
+        "西侧主路和横向步道按总图调整，避免切过住宅；用途不足处保留类别名，不伪造 C 编号。",
+        "2026-10-05：F6/F7 公开地图轮廓补入，名称与楼号按独立目录纠正；西侧简化道路绕开补入体量。新增楼高度与立面估计。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/west-north.png",
+        "gameView": "reports/screenshots/view-region-west-north.png",
+        "viewId": "region-west-north",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "b0cd230c62dda862faea143f2bb8e2c71bf75e3232ae9a89a310f83ab6221e57",
+        "planCropSha256": "1137ebe8347979a5030dd25c44d74b557edec774e10c4b3dae87e0513a444eaf"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.557594+00:00"
+    },
+    {
+      "id": "west-central",
+      "name": "讲席教授公寓、危化品与水岸",
+      "objectIds": [
+        "faculty-3",
+        "faculty-4",
+        "faculty-5",
+        "faculty-6",
+        "faculty-7",
+        "faculty-8",
+        "faculty-9",
+        "faculty-10",
+        "faculty-11",
+        "faculty-12",
+        "professor-11",
+        "hazard-store"
+      ],
+      "planBounds": [
+        175,
+        595,
+        440,
+        800
+      ],
+      "requirements": [
+        "独立公寓的真实小体量轮廓",
+        "危化品库位置",
+        "网状路与过河联系"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "HENN-henn_westlakeuniversity_01_aerial_0_0"
+      ],
+      "findings": [
+        "重描 11 栋讲席教授公寓的独立 H 形/矩形轮廓和低层体量，补入危化品库房。",
+        "调整网状路和两处过河联系，移除穿楼的路段；临水岸线按总图重新描出。",
+        "球场和住宅相交检查通过，随机树木不进入球场及其边缘缓冲带。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/west-central.png",
+        "gameView": "reports/screenshots/view-region-west-central.png",
+        "viewId": "region-west-central",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "cd61c3f87a5c44886108a8b6fa51d80805e55a8a9b420026ac7ff4069881b530",
+        "planCropSha256": "3de25097ab675fc291291d2d936479ba66f8bea287e6f6e5eeda1c6c30f3c449"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.558205+00:00"
+    },
+    {
+      "id": "west-south",
+      "name": "C1–C19 生活区与食堂活动中心",
+      "objectIds": [
+        "res-13",
+        "res-14",
+        "res-15",
+        "res-16",
+        "res-17",
+        "res-18",
+        "res-19",
+        "res-20",
+        "res-21",
+        "res-22",
+        "res-23",
+        "res-24",
+        "res-25",
+        "res-26",
+        "res-27",
+        "C16",
+        "canteen-west",
+        "F18",
+        "C19"
+      ],
+      "planBounds": [
+        160,
+        805,
+        560,
+        1210
+      ],
+      "requirements": [
+        "C 编号与用途对照官方导览",
+        "F17/F18及C19食堂形态",
+        "住宅、运动和道路网络"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "HENN-henn_westlakeuniversity_01_aerial_0_0",
+        "skyline-2025-1"
+      ],
+      "findings": [
+        "逐栋重描 15 栋南西公寓，对照官方导览给出 C1–C15 完整编号；C1–C3 直接对应总图三栋住宅，删除另外重复叠放的三栋旧方盒。",
+        "移动并重描 C16、C17/F17、C18/F18，补入 C19；修正其周围道路和球场，西边界道路移出住宅轮廓。",
+        "按总图移动两处小球场，所有球场与住宅相交检查为零；随机植被避开全部球场与田径场。",
+        "西侧横路绕开小球场，主路宽度按通行走廊调整；检查所有球场均无道路铺面相交。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/west-south.png",
+        "gameView": "reports/screenshots/view-region-west-south.png",
+        "viewId": "region-west-south",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "gameViewSha256": "ef2a2bcc687264e5d8df34eb63feef74a9970a79500aab14c5c5cbf0bfa0558a",
+        "planCropSha256": "9b2fd9ba786ce28ce68280444c4225042e4989bce8d07747c92b8307a4d38196"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.558754+00:00"
+    },
+    {
+      "id": "water-roads",
+      "name": "全园水系、十二桥与路网",
+      "objectIds": [],
+      "planBounds": [
+        140,
+        100,
+        1260,
+        1220
+      ],
+      "requirements": [
+        "十二桥两端必须落在对应两岸",
+        "道路与桥连续且不穿建筑",
+        "路面、沿水环跑道与河岸细部"
+      ],
+      "status": "REVIEWED",
+      "sourceIds": [
+        "OFFICIAL-MAP",
+        "HENN-henn_westlakeuniversity_plan_masterplan",
+        "skyline-2025-3",
+        "skyline-2025-6",
+        "skyline-2025-7",
+        "skyline-2025-12",
+        "skyline-2025-13"
+      ],
+      "findings": [
+        "由原始总图蓝色水面分量生成 25 组水域轮廓，修复北侧双汊水系和庭园岛；桥下缺口按两侧水域补足，补丁不产生岸线。",
+        "十二座桥使用共同折线/曲线、拱度、宽度和护栏数据；另补水庭园短栈道。逐桥检查两端干岸、中心线通行和实际高程。",
+        "岸边白色铺装与外侧跑步道按岸线分布；检查 284 条路段中心线没有穿进建筑碰撞轮廓。",
+        "三组台阶顶部/底部高程与预期高度一致；所有球场与建筑相交为零。"
+      ],
+      "verification": {
+        "planCrop": "references/region-views/water-roads.png",
+        "gameView": "reports/screenshots/view-region-water-roads.png",
+        "viewId": "region-water-roads",
+        "scope": "Position, footprint, connections, principal facade features and public circulation; dimensions remain estimated.",
+        "bridges": "reports/region-physics-audit.json",
+        "roads": "reports/road-crossings.json",
+        "routes": "reports/path-results.json",
+        "gameViewSha256": "b228252fe20ed5e1f84c97ee49a65ce7837eed8752611c37bebd641aac271fbd",
+        "planCropSha256": "abd7f0d7781cae7065af96ea2ec2832dd815ceda9214cad47718149e4dfa494c"
+      },
+      "reviewedAt": "2026-10-04T13:11:50.559413+00:00"
+    }
+  ],
+  "coverage": {
+    "buildingGroups": 81,
+    "assignedExactlyOnce": true,
+    "regions": 14,
+    "planWaterComponents": 25,
+    "renderWaterPolygonsIncludingUnderBridgeInfill": 91,
+    "mainBridges": 12,
+    "gardenWalkways": 1,
+    "stairs": 3,
+    "roadSegments": 284,
+    "fixedViews": 29
+  },
+  "modelSha256": "a41262cd01f57f842a3fbd8dab63787cd405f6d92715f7db5b660e54df0932cd",
+  "precisionStatus": "UNVERIFIED: dimensions estimated from published drawings; no independent as-built survey.",
+  "reviewMethod": "Same executor compares every region to its masterplan crop, official names, aerial photographs and available individual facade photographs. Not a third-party or university review.",
+  "status": "REVIEWED",
+  "namingReview": "2026-10-05: 公共楼名及代码以 data/building-directory.json 为准，历史照片来源标题和检查备注保留其当时命名。F6/F7 外观与高度估计。"
+}

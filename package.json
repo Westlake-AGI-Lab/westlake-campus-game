@@ -1,0 +1,37 @@
+{
+  "name": "westlake-campus-game",
+  "version": "1.11.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node --import tsx scripts/build-navigation.ts && tsc --noEmit && vite build && esbuild server/index.ts scripts/migrate-accounts.ts --bundle --platform=node --format=esm --packages=external --entry-names=[name] --outdir=dist-server",
+    "start": "node --env-file-if-exists=.env dist-server/index.js",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "test:e2e": "node scripts/e2e.mjs",
+    "test:soak": "tsx scripts/soak.ts",
+    "report": "node scripts/report.mjs",
+    "test:paths": "node --import tsx scripts/paths.ts",
+    "version:patch": "node scripts/bump-version.mjs patch",
+    "version:minor": "node scripts/bump-version.mjs minor",
+    "version:major": "node scripts/bump-version.mjs major"
+  },
+  "dependencies": {
+    "three": "0.186.1",
+    "socket.io": "4.8.4",
+    "socket.io-client": "4.8.4"
+  },
+  "devDependencies": {
+    "@types/three": "0.183.1",
+    "@types/node": "24.0.0",
+    "typescript": "5.9.3",
+    "vite": "8.3.2",
+    "tsx": "4.20.6",
+    "esbuild": "0.28.2",
+    "@playwright/test": "1.63.0",
+    "agent-browser": "0.38.2"
+  }
+}
