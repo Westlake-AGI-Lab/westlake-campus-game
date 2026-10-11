@@ -1,3 +1,4 @@
+import {WATER_MODES} from '../shared/water-modes';
 import {createWaterGame} from './water';
 import {APP_VERSION} from '../shared/version';
 import {createServer} from 'node:http';
@@ -6,10 +7,10 @@ import {resolve,extname,sep} from 'node:path';
 import {createGame} from './game';
 const port=Number(process.env.PORT||3000),host=process.env.HOST||'127.0.0.1',root=resolve('dist');
 const mime:Record<string,string>={'.html':'text/html; charset=utf-8','.js':'application/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.woff2':'font/woff2'};
-const http=createServer(async(req,res)=>{try {const url=new URL(req.url||'/', 'http://localhost');if(url.pathname==='/health'){res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify({status:'ok',version:APP_VERSION,online:game.snapshot().count,waterOnline:water.snapshot().players.length}));return;}const path=resolve(root,'.'+decodeURIComponent(url.pathname==='/'?'/index.html':url.pathname));if(!path.startsWith(root+sep)){res.writeHead(403);res.end();return;}const s=await stat(path);if(!s.isFile())throw Error('missing');res.writeHead(200,{'Content-Type':mime[extname(path)]||'application/octet-stream','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'});res.end(await readFile(path));}catch{res.writeHead(404,{'Content-Type':'text/plain; charset=utf-8'});res.end('资源不存在；请先运行 npm run build。');}});
+const http=createServer(async(req,res)=>{try {const url=new URL(req.url||'/', 'http://localhost');if(url.pathname==='/health'){res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify({status:'ok',version:APP_VERSION,online:game.snapshot().count,waterOnline:waterRooms.reduce((n,r)=>n+r.snapshot().players.length,0),waterRooms:waterRooms.map(r=>({mode:r.snapshot().mode,online:r.snapshot().players.length}))}));return;}const path=resolve(root,'.'+decodeURIComponent(url.pathname==='/'?'/index.html':url.pathname));if(!path.startsWith(root+sep)){res.writeHead(403);res.end();return;}const s=await stat(path);if(!s.isFile())throw Error('missing');res.writeHead(200,{'Content-Type':mime[extname(path)]||'application/octet-stream','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'});res.end(await readFile(path));}catch{res.writeHead(404,{'Content-Type':'text/plain; charset=utf-8'});res.end('资源不存在；请先运行 npm run build。');}});
 const presence=new Set<string>();
 const game=createGame(http,{presence,databasePath:process.env.ACCOUNT_DB===':memory:'?':memory:':resolve(process.env.ACCOUNT_DB||'var/accounts.sqlite')});
-const water=createWaterGame(game.io.of('/water'),game.accountStore,presence);
+const waterPresence=new Set<string>(),waterRooms=(Object.keys(WATER_MODES) as (keyof typeof WATER_MODES)[]).map(mode=>createWaterGame(game.io.of(WATER_MODES[mode].namespace),game.accountStore,presence,{mode,waterPresence}));
 http.on('error',(e:NodeJS.ErrnoException)=>{console.error(e.code==='EADDRINUSE'?`端口 ${port} 已被占用。关闭已有服务或设置 PORT。`:e.message);process.exit(1);});
 http.listen(port,host,()=>console.log(`校园服务已启动 → http://${host}:${port} （Ctrl+C 关闭）`));
-for(const signal of ['SIGINT','SIGTERM'])process.on(signal,async()=>{await water.close();await game.close();process.exit(0);});
+for(const signal of ['SIGINT','SIGTERM'])process.on(signal,async()=>{await Promise.all(waterRooms.map(r=>r.close()));await game.close();process.exit(0);});

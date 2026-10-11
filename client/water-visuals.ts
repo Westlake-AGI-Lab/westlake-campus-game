@@ -81,7 +81,7 @@ export function waterAvatar(player:WaterPlayer){
    if(weapon.kind!==p.weapon){pivot.remove(weapon.group);weapon.dispose();weapon=waterGun(p.weapon);pivot.add(weapon.group);}
    progress=reloadProgress(p,now);kick=Math.exp(-Math.max(0,now-p.shotAt)/85)*(p.shotAt>0?1:0);
    const open=progress<0?0:Math.sin(progress*Math.PI),bob=p.moving?Math.sin(now*.012)*.012:Math.sin(now*.002)*.003;
-   a.animate(now/1000,p.moving,0,(now-p.hitAt)/220);a.head.rotation.x=-p.pitch*.3;
+   a.animate(now/1000,p.moving,0,(now-p.hitAt)/220,(p.protectUntil||0)>now);a.head.rotation.x=-p.pitch*.3;
    pivot.position.set(.10,1.31+bob-open*.12,.44-kick*.035);pivot.rotation.set(-p.pitch+open*.30-kick*.045,open*-.15,open*-.18);
    refillMotion(weapon,progress);pivot.updateMatrix();
    hands[0].copy(weapon.leftGrip).lerp(weapon.refill,open).applyMatrix4(pivot.matrix);hands[1].copy(weapon.rightGrip).applyMatrix4(pivot.matrix);

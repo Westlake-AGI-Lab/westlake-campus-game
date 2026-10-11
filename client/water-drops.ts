@@ -1,0 +1,11 @@
+import * as T from 'three';
+import {waterGun} from './water-visuals';
+import type {WaterDrop,Weapon} from '../shared/water';
+/** Three fixed instanced silhouettes; drops do not allocate another gun for each event. */
+export function waterDrops(scene:T.Scene){
+ const capacity=24,dummy=new T.Object3D();
+ const pools=(['sprayer','stream','precision'] as Weapon[]).map(kind=>{const gun=waterGun(kind);gun.group.updateWorldMatrix(true,true);const parts:{mesh:T.InstancedMesh;matrix:T.Matrix4}[]=[];gun.group.traverse(o=>{if(o instanceof T.Mesh){const mesh=new T.InstancedMesh(o.geometry,o.material,capacity);mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);mesh.count=0;mesh.frustumCulled=false;scene.add(mesh);parts.push({mesh,matrix:o.matrixWorld.clone()});}});return{kind,gun,parts};});
+ const ring=new T.InstancedMesh(new T.RingGeometry(.40,.45,20),new T.MeshBasicMaterial({color:'#c8f6ef',side:T.DoubleSide}),capacity);ring.instanceMatrix.setUsage(T.DynamicDrawUsage);ring.count=0;ring.frustumCulled=false;scene.add(ring);
+ const matrix=new T.Matrix4();let visible=0;
+ return{update(drops:WaterDrop[],view:{x:number;z:number}){ring.count=0;visible=0;for(const p of pools)p.parts.forEach(part=>part.mesh.count=0);for(const d of drops){if(visible>=capacity||Math.hypot(d.x-view.x,d.z-view.z)>40)continue;const pool=pools.find(p=>p.kind===d.weapon)!;dummy.position.set(d.x,d.y+.08,d.z);dummy.rotation.set(0,(d.id%8)*Math.PI/4,Math.PI/2);dummy.scale.setScalar(.65);dummy.updateMatrix();for(const part of pool.parts){matrix.multiplyMatrices(dummy.matrix,part.matrix);part.mesh.setMatrixAt(part.mesh.count++,matrix);}dummy.position.set(d.x,d.y-.09,d.z);dummy.rotation.set(-Math.PI/2,0,0);dummy.scale.setScalar(1);dummy.updateMatrix();ring.setMatrixAt(ring.count++,dummy.matrix);visible++;}for(const p of pools)for(const part of p.parts){part.mesh.visible=part.mesh.count>0;part.mesh.instanceMatrix.needsUpdate=true;}ring.visible=ring.count>0;ring.instanceMatrix.needsUpdate=true;},diagnostic:()=>({capacity,visible}),dispose(){for(const p of pools){for(const part of p.parts){scene.remove(part.mesh);part.mesh.dispose();}p.gun.dispose();}scene.remove(ring);ring.dispose();ring.geometry.dispose();(ring.material as T.Material).dispose();}};
+}

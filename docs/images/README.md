@@ -47,3 +47,5 @@
 - `water-controls.png`：v1.12.2 水花竞技操作说明，包含 R 补水（换弹）等按键释义；2026 年 10 月 11 日独立内存数据库测试页面截图。
 
 - `water-third-person.png`、`water-spray.png`、`water-refill.png`：v1.12.3 双手持枪、枪口射击和打开罐盖补水；2026 年 10 月 11 日浏览器与真实协议玩家的独立内存测试房间截图。测试用方向输入沿路线移动，并加速测试时钟；观察者仍为第一人称，不使用假的场景人物。
+
+- `water-playlists.png`、`water-duo.png`、`water-quick.png`、`water-drops.png`、`water-playlists-mobile.png`：v1.13.0 真实隔离服务上的玩法选择、2v2 会堂小场、五分钟快速赛、带剩余水量的地上水枪和触屏操作。来源 `tests/e2e/water-modes.spec.ts`，2026 年 10 月 11 日；没有伪造比分或生产玩家。`water-controls.png` 同步更新新增 Q / F 和声音 / 玩法按钮，三张通用第一人称 / 装备 / 手机画面同步采集。

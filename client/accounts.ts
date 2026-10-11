@@ -6,7 +6,7 @@ const $=<E extends HTMLElement=HTMLElement>(id:string)=>document.getElementById(
 const storageKey='westlake-account-session';
 type Session={token:string;username:string;displayName:string;color:number};
 
-export function accountEntry(){
+export function accountEntry(competitive=false){
  let mode:'login'|'register'='login';const editor=appearanceEditor();
  const username=$<HTMLInputElement>('username'),displayName=$<HTMLInputElement>('display-name'),password=$<HTMLInputElement>('password'),submit=$<HTMLButtonElement>('enter-campus');
  const selects=NAME_PARTS.map((chars,i)=>{const select=$<HTMLSelectElement>('name-part-'+i);for(const char of chars){const option=document.createElement('option');option.value=option.textContent=char;select.append(option);}return select;});
@@ -23,8 +23,8 @@ export function accountEntry(){
   mode=value;editor.show(value==='register');$('appearance-coat-controls').hidden=value!=='register';username.placeholder=value==='login'?'输入登录用户名':'自己取一个登录用户名';
   password.autocomplete=value==='register'?'new-password':'current-password';$('display-name-group').hidden=value!=='register';displayName.disabled=value!=='register';
   $('auth-login').setAttribute('aria-selected',String(value==='login'));$('auth-register').setAttribute('aria-selected',String(value==='register'));
-  submit.innerHTML=value==='login'?'登录并继续漫游 <span>↗</span>':'注册并进入校园 <span>↗</span>';
-  $('join-note').textContent=value==='login'?'恢复角色外观、位置与记录 · 原三字用户名仍可登录':'用户名仅用于登录 · 角色头顶显示选字名字';$('entry-error').textContent='';submit.disabled=false;
+  submit.innerHTML=(competitive?(value==='login'?'登录并进入竞技':'注册并进入竞技'):(value==='login'?'登录并继续漫游':'注册并进入校园'))+' <span>↗</span>';
+  $('join-note').textContent=value==='login'?(competitive?'沿用角色外观 · 本场独立记分':'恢复角色外观、位置与记录 · 原三字用户名仍可登录'):'用户名仅用于登录 · 角色头顶显示选字名字';$('entry-error').textContent='';submit.disabled=false;
   if(value==='register')choose(randomName());
  }
  $('auth-login').onclick=()=>setMode('login');$('auth-register').onclick=()=>setMode('register');setMode('login');
