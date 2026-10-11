@@ -40,4 +40,6 @@
 
 - `leaderboard.png` / `leaderboard-mobile.png`：v1.11.0 历史累计榜单，真实临时测试房间截图，未伪造正式玩家记录。
 
-- `water-first-person.png`、`water-equipment.png`、`water-mobile.png`：v1.12.0 独立水花竞技场的桌面第一人称、装备面板和触屏操作；2026 年 10 月 11 日隔离测试房间实际画面。
+- `water-first-person.png`、`water-equipment.png`、`water-mobile.png`：v1.12.1 校园学术核心水花竞技场的桌面第一人称、装备面板和触屏操作；2026 年 10 月 11 日隔离测试房间实际画面。
+
+- `water-campus-overview.png`：v1.12.1 学术核心竞技区全景；水花竞技三张操作画面同步更新为该校园地图。
