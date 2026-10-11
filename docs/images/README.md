@@ -40,8 +40,10 @@
 
 - `leaderboard.png` / `leaderboard-mobile.png`：v1.11.0 历史累计榜单，真实临时测试房间截图，未伪造正式玩家记录。
 
-- `water-first-person.png`、`water-equipment.png`、`water-mobile.png`：v1.12.1 校园学术核心水花竞技场的桌面第一人称、装备面板和触屏操作；2026 年 10 月 11 日隔离测试房间实际画面。
+- `water-first-person.png`、`water-equipment.png`、`water-mobile.png`：v1.12.3 校园学术核心水花竞技场的桌面第一人称、装备面板和触屏操作；2026 年 10 月 11 日隔离测试房间实际画面。
 
 - `water-campus-overview.png`：v1.12.1 学术核心竞技区全景；水花竞技三张操作画面同步更新为该校园地图。
 
 - `water-controls.png`：v1.12.2 水花竞技操作说明，包含 R 补水（换弹）等按键释义；2026 年 10 月 11 日独立内存数据库测试页面截图。
+
+- `water-third-person.png`、`water-spray.png`、`water-refill.png`：v1.12.3 双手持枪、枪口射击和打开罐盖补水；2026 年 10 月 11 日浏览器与真实协议玩家的独立内存测试房间截图。测试用方向输入沿路线移动，并加速测试时钟；观察者仍为第一人称，不使用假的场景人物。
