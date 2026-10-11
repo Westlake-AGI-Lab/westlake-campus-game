@@ -43,3 +43,5 @@
 - `water-first-person.png`、`water-equipment.png`、`water-mobile.png`：v1.12.1 校园学术核心水花竞技场的桌面第一人称、装备面板和触屏操作；2026 年 10 月 11 日隔离测试房间实际画面。
 
 - `water-campus-overview.png`：v1.12.1 学术核心竞技区全景；水花竞技三张操作画面同步更新为该校园地图。
+
+- `water-controls.png`：v1.12.2 水花竞技操作说明，包含 R 补水（换弹）等按键释义；2026 年 10 月 11 日独立内存数据库测试页面截图。
