@@ -39,3 +39,5 @@
 - `shuttle-exterior.png`、`shuttle-riding.png`、`shuttle-overview.png`：v1.7.0 隔离测试房间实际截图，包含自动校车外观、真实乘客、跟车视角与小地图环线。线路和站点是游戏设计。
 
 - `leaderboard.png` / `leaderboard-mobile.png`：v1.11.0 历史累计榜单，真实临时测试房间截图，未伪造正式玩家记录。
+
+- `water-first-person.png`、`water-equipment.png`、`water-mobile.png`：v1.12.0 独立水花竞技场的桌面第一人称、装备面板和触屏操作；2026 年 10 月 11 日隔离测试房间实际画面。

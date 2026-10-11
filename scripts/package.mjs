@@ -1,5 +1,5 @@
 import {spawn} from 'node:child_process';import {writeFile,rename,rm,stat} from 'node:fs/promises';
-const list=['package.json','package-lock.json','README.md','.env.example','.gitignore','LICENSE','启动校园.command','index.html','tsconfig.json','vite.config.ts','playwright.config.ts','client','server','shared','data','assets-src','public','scripts','tests','docs','deployment','dist','dist-server','references/manifest.json'];
+const list=['package.json','package-lock.json','README.md','.env.example','.gitignore','LICENSE','启动校园.command','index.html','water.html','tsconfig.json','vite.config.ts','playwright.config.ts','client','server','shared','data','assets-src','public','scripts','tests','docs','deployment','dist','dist-server','references/manifest.json'];
 await writeFile('reports/delivery-files.txt',list.join('\n')+'\n');
 const output='../westlake-campus-game-delivery.zip',temp='../.westlake-campus-game-delivery-'+process.pid+'.zip';
 await rm(temp,{force:true});

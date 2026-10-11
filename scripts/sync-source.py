@@ -20,7 +20,7 @@ from datetime import datetime, timezone
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_ROOTS = ['client', 'server', 'shared', 'data', 'public', 'assets-src',
                 'scripts', 'tests', 'docs', 'deployment', 'index.html',
-                'package.json', 'package-lock.json', 'tsconfig.json',
+                'water.html', 'package.json', 'package-lock.json', 'tsconfig.json',
                 'vite.config.ts', 'playwright.config.ts', 'README.md', 'AGENTS.md',
                 '.env.example', '.gitignore', 'LICENSE', '启动校园.command',
                 'references/manifest.json']

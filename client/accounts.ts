@@ -39,6 +39,7 @@ export function accountEntry(){
   }catch{}
   return undefined;
  }
+ for(const id of ['auth-login','auth-register'])$(id).removeAttribute('disabled');
  const previous=stored();if(previous)username.value=previous.username;
  return {
   previous,
