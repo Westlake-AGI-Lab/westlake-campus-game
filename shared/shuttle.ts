@@ -1,9 +1,10 @@
+import {trafficPenetration,trafficEscaping,type TrafficBody} from './traffic-geometry';
 import {campus,insideBox,heightAt,bridgeAt} from './world';
 import {collisionQuery} from './navigation-geometry';
-import {vehicleContains,type Vehicle} from './vehicles';
+import {vehicleContains,vehicleBody,vehicleBlocked,vehicleCanMove,PARKING,type Vehicle} from './vehicles';
 import type {Point} from './types';
-export const SHUTTLE=Object.freeze({length:7.8,width:2.5,capacity:12,speed:10,enterRange:6,dwellMs:12000,exitPauseMs:2000});
-export type Shuttle=Point&{id:string;yaw:number;speed:number;distance:number;passengerIds:string[];nextStop:number;dwellUntil:number;blocked:boolean};
+export const SHUTTLE=Object.freeze({length:7.8,width:2.5,capacity:12,speed:10,enterRange:6,dwellMs:12000,exitPauseMs:2000,pushWaitMs:750,pushSpeed:4,recoveryMs:6000});
+export type Shuttle=Point&{id:string;yaw:number;speed:number;distance:number;passengerIds:string[];nextStop:number;dwellUntil:number;blocked:boolean;blockedSince?:number;recoveryAt?:number};
 export type ShuttleAction={seq:number;kind:'enter';shuttleId:string}|{seq:number;kind:'exit'};
 export type ShuttleReply={ok:true}|{ok:false;error:string};
 const query=collisionQuery();
@@ -26,11 +27,39 @@ export function shuttleContains(v:Point&{yaw:number},p:Point,pad=.45){return ins
 export function shuttleFootprint(v:Point&{yaw:number}){const points:Point[]=[];for(const x of[-1.25,0,1.25])for(const z of[-3.9,-1.95,0,1.95,3.9])points.push({x:v.x+Math.cos(v.yaw)*x+Math.sin(v.yaw)*z,z:v.z-Math.sin(v.yaw)*x+Math.cos(v.yaw)*z});return points;}
 export function shuttleStaticBlocked(v:Point&{yaw:number}){return shuttleFootprint(v).some(p=>query.blocked(p)||heightAt(p)>.35&&!bridgeAt(p));}
 export function shuttleExit(v:Shuttle,cars:Vehicle[],buses:Shuttle[],people:Point[]=[]):Point|undefined{for(const r of[3,4,5,7,10,13])for(const angle of[Math.PI/2,-Math.PI/2,Math.PI*.75,-Math.PI*.75,Math.PI,0]){const a=v.yaw+angle,p={x:v.x+Math.sin(a)*r,z:v.z+Math.cos(a)*r};if(!query.blocked(p)&&cars.every(c=>!vehicleContains(c,p))&&buses.every(b=>!shuttleContains(b,p))&&people.every(o=>Math.hypot(o.x-p.x,o.z-p.z)>1.5))return p;}}
+export const shuttleBody=(v:Point&{id:string;yaw:number}):TrafficBody=>({...v,width:SHUTTLE.width,length:SHUTTLE.length});
 export function stepShuttle(v:Shuttle,dt:number,now:number,cars:Vehicle[]=[],people:Point[]=[],buses:Shuttle[]=[]):Shuttle{
- const next={...v,passengerIds:[...v.passengerIds],speed:0,blocked:false};if(now<v.dwellUntil)return next;
+ const next={...v,passengerIds:[...v.passengerIds],speed:0,blocked:false,blockedSince:0};if(now<v.dwellUntil)return next;
  const remaining=(SHUTTLE_STOPS[v.nextStop].distance-v.distance+total)%total,travel=Math.min(SHUTTLE.speed*Math.max(0,Math.min(dt,.1)),remaining);
  const candidate={...next,...shuttlePose(v.distance+travel),distance:(v.distance+travel)%total};
- if(shuttleStaticBlocked(candidate)||cars.some(c=>Math.hypot(c.x-candidate.x,c.z-candidate.z)<6.4)||people.some(p=>shuttleContains(candidate,p,.8))||buses.some(b=>b.id!==v.id&&Math.hypot(b.x-candidate.x,b.z-candidate.z)<8.6)){next.blocked=true;return next;}
+ if(shuttleStaticBlocked(candidate)||cars.some(c=>trafficPenetration(shuttleBody(candidate),vehicleBody(c))>0)||people.some(p=>shuttleContains(candidate,p,.8))||buses.some(b=>b.id!==v.id&&trafficPenetration(shuttleBody(candidate),shuttleBody(b),.3)>0)){next.blocked=true;next.blockedSince=v.blockedSince||now;return next;}
  Object.assign(next,candidate,{speed:SHUTTLE.speed});if(remaining<=travel+.001){next.distance=SHUTTLE_STOPS[v.nextStop].distance;Object.assign(next,shuttlePose(next.distance));next.speed=0;next.dwellUntil=now+SHUTTLE.dwellMs;next.nextStop=(v.nextStop+1)%SHUTTLE_STOPS.length;}
  return next;
+}
+
+/** Server traffic update: buses gently clear cars; passengers and drivers keep their seats. */
+export function stepShuttleTraffic(v:Shuttle,dt:number,now:number,cars:Vehicle[]=[],people:Point[]=[],buses:Shuttle[]=[]):Shuttle{
+ const stalled=stepShuttle(v,dt,now,cars,people,buses);if(!stalled.blocked||now-(stalled.blockedSince||now)<SHUTTLE.pushWaitMs)return stalled;
+ const remaining=(SHUTTLE_STOPS[v.nextStop].distance-v.distance+total)%total,target={...v,...shuttlePose(v.distance+Math.min(SHUTTLE.speed*Math.min(.1,Math.max(0,dt)),remaining))};
+ // Never clear traffic by moving through a pedestrian, building, water or another bus.
+ if(shuttleStaticBlocked(target)||people.some(p=>shuttleContains(target,p,.8))||buses.some(b=>b.id!==v.id&&trafficPenetration(shuttleBody(target),shuttleBody(b),.3)>0))return stalled;
+ const obstacles=[shuttleBody(target),...buses.filter(b=>b.id!==v.id).map(shuttleBody)];let recoveryAt=v.recoveryAt||0;
+ for(const car of cars.filter(c=>trafficPenetration(shuttleBody(target),vehicleBody(c))>0)){
+  const lateral=(car.x-target.x)*Math.cos(target.yaw)-(car.z-target.z)*Math.sin(target.yaw),side=lateral<0?-1:1;
+  const directions=[side*Math.PI/2,-side*Math.PI/2,side*Math.PI/4,-side*Math.PI/4,side*Math.PI*.75,-side*Math.PI*.75,Math.PI,0];
+  let cleared=false;
+  for(const angle of directions){const a=target.yaw+angle,distance=SHUTTLE.pushSpeed*Math.min(.1,Math.max(0,dt)),candidate={...car,x:car.x+Math.sin(a)*distance,z:car.z+Math.cos(a)*distance,speed:0};
+   if(!trafficEscaping(vehicleBody(car),vehicleBody(candidate),shuttleBody(target))||!vehicleCanMove(car,candidate,cars,people,obstacles))continue;
+   Object.assign(car,candidate);cleared=true;break;
+  }
+  // A narrow wall or queued cars can prevent a gradual push. Bounded recovery places only
+  // this car on a fully checked nearby shoulder; parking bays are the last fallback.
+  if(!cleared&&now-(stalled.blockedSince||now)>=SHUTTLE.recoveryMs&&now-recoveryAt>=1000){
+   recoveryAt=now;
+   const points:Point[]=[];for(const r of [4,6,8,12,16,24,32])for(let i=0;i<16;i++){const a=target.yaw+side*Math.PI/2+i*Math.PI/8;points.push({x:car.x+Math.sin(a)*r,z:car.z+Math.cos(a)*r});}
+   for(let i=0;i<4;i++)points.push({x:PARKING.x,z:530+i*8});
+   const safe=points.map(p=>({...car,...p,speed:0})).find(c=>!vehicleBlocked(c,cars,people,obstacles));if(safe)Object.assign(car,safe);
+  }
+ }
+ const moved=stepShuttle(v,dt,now,cars,people,buses);if(moved.blocked)moved.blockedSince=stalled.blockedSince;moved.recoveryAt=moved.blocked?recoveryAt:0;return moved;
 }
