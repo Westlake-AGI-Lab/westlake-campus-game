@@ -3,7 +3,7 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 const dir=await mkdtemp(join(tmpdir(),'westlake-e2e-')),port=process.env.E2E_PORT||'3013',url=`http://127.0.0.1:${port}`;
-const server=spawn(process.execPath,['dist-server/index.js'],{env:{...process.env,HOST:'127.0.0.1',PORT:port,ACCOUNT_DB:join(dir,'accounts.sqlite')},stdio:'inherit'});
+const server=spawn(process.execPath,['dist-server/index.js'],{env:{...process.env,HOST:'127.0.0.1',PORT:port,NPCS:'0',ACCOUNT_DB:join(dir,'accounts.sqlite')},stdio:'inherit'});
 let test;
 const stop=()=>{test?.kill();server.kill();};process.on('SIGINT',stop);process.on('SIGTERM',stop);
 try{

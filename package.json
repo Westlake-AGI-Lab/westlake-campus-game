@@ -1,6 +1,6 @@
 {
   "name": "westlake-campus-game",
-  "version": "1.13.2",
+  "version": "1.14.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "node scripts/dev.mjs",
-    "build": "node --import tsx scripts/build-navigation.ts && tsc --noEmit && vite build && esbuild server/index.ts scripts/migrate-accounts.ts --bundle --platform=node --format=esm --packages=external --entry-names=[name] --outdir=dist-server",
+    "build": "node --import tsx scripts/build-navigation.ts && node --import tsx scripts/build-water-navigation.ts && tsc --noEmit && vite build && esbuild server/index.ts scripts/migrate-accounts.ts --bundle --platform=node --format=esm --packages=external --entry-names=[name] --outdir=dist-server",
     "start": "node --env-file-if-exists=.env dist-server/index.js",
     "test": "node --import tsx --test tests/*.test.ts",
     "test:e2e": "node scripts/e2e.mjs",

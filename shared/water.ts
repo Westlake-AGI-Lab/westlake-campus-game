@@ -14,13 +14,13 @@ export function waterRecoil(weapon:Weapon,burst:number){const pattern=[0,.25,-.3
 export function waterDamage(weapon:Weapon,distance:number,head:boolean){const g=GEAR[weapon],falloff=distance<=g.optimal?1:Math.max(.5,1-(distance-g.optimal)/(g.range-g.optimal)*.5);return Math.ceil(g.damage*falloff*(head?2:1));}
 export const ARENA=CLASSIC_ARENA;
 export type WaterInput={seq:number;forward:number;side:number;yaw:number;pitch:number;walk:boolean;crouch:boolean;jump:boolean;interact:boolean};
-export type WaterPlayer=Vec&{id:string;name:string;appearance:Appearance;team:Team|null;alive:boolean;hp:number;armour:number;credits:number;weapon:Weapon;ammo:number;reserve:number;reloadUntil:number;balloons:number;smokes:number;kit:boolean;yaw:number;pitch:number;crouch:boolean;moving:boolean;ack:number;kills:number;deaths:number;shotAt:number;hitAt:number;spawn:number;respawnAt?:number;protectUntil?:number;settleUntil?:number;loadout?:Weapon;};
+export type WaterPlayer=Vec&{npc?:boolean;id:string;name:string;appearance:Appearance;team:Team|null;alive:boolean;hp:number;armour:number;credits:number;weapon:Weapon;ammo:number;reserve:number;reloadUntil:number;balloons:number;smokes:number;kit:boolean;yaw:number;pitch:number;crouch:boolean;moving:boolean;ack:number;kills:number;deaths:number;shotAt:number;hitAt:number;spawn:number;respawnAt?:number;protectUntil?:number;settleUntil?:number;loadout?:Weapon;};
 export type WaterDevice={carrier:string|null;dropped:Vec|null;site:string|null;point:Vec|null;expires:number;progress:number;actor:string|null;action:'plant'|'defuse'|null};
 export type WaterBalloon=Vec&{id:number;owner:string;kind:'splash'|'mist';start:Vec;end:Vec;at:number;lands:number};
 export type WaterSmoke=Vec&{id:number;expires:number};
 export type WaterDrop=Vec&{id:number;owner:string;weapon:Weapon;ammo:number;reserve:number;at:number;expires:number};
 export type WaterSound=Vec&{kind:'step'|'land'|'reload'|'shot'|'device'|'pickup';owner:string;at:number;walk?:boolean;weapon?:Weapon};
-export type WaterState={mode:WaterMode;drops:WaterDrop[];time:number;phase:'waiting'|'buy'|'live'|'results'|'match';round:number;ends:number;attackTeam:Team;scores:Record<Team,number>;winner:Team|null;reason:string;players:WaterPlayer[];device:WaterDevice;balloons:WaterBalloon[];smokes:WaterSmoke[];match:number};
+export type WaterState={humanCount?:number;npcCount?:number;mode:WaterMode;drops:WaterDrop[];time:number;phase:'waiting'|'buy'|'live'|'results'|'match';round:number;ends:number;attackTeam:Team;scores:Record<Team,number>;winner:Team|null;reason:string;players:WaterPlayer[];device:WaterDevice;balloons:WaterBalloon[];smokes:WaterSmoke[];match:number};
 export type WaterWelcome={playerId:string;username:string;token:string;state:WaterState};
 export type WaterReply={ok:boolean;error?:string;hit?:boolean;head?:boolean;knockout?:boolean};
 export const otherTeam=(t:Team):Team=>t==='blue'?'orange':'blue';

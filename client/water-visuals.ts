@@ -73,6 +73,7 @@ function refillMotion(g:ReturnType<typeof waterGun>,progress:number){
 }
 export function waterAvatar(player:WaterPlayer){
  const a=avatar(player.team==='blue'?2:1,{...player.appearance,coat:player.team==='blue'?2:1},'#8be7ed');a.arms.forEach(arm=>arm.visible=false);
+ let badge:T.Sprite|undefined;if(player.npc){const canvas=document.createElement('canvas');canvas.width=192;canvas.height=64;const ctx=canvas.getContext('2d')!;ctx.fillStyle='#244d60';ctx.fillRect(0,0,192,64);ctx.fillStyle='#fff';ctx.font='bold 32px sans-serif';ctx.textAlign='center';ctx.fillText('NPC 陪练',96,44);badge=new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(canvas),depthTest:true}));badge.position.y=2.32;badge.scale.set(1.2,.4,1);a.group.add(badge);}
  const pivot=new T.Group();a.group.add(pivot);let weapon=waterGun(player.weapon);pivot.add(weapon.group);
  const rig=arms(a.group,a.skin,a.sleeves),shoulders=[new T.Vector3(-.34,1.46,0),new T.Vector3(.34,1.46,0)],elbows=[new T.Vector3(),new T.Vector3()],hands=[new T.Vector3(),new T.Vector3()];
  let progress=-1,kick=0;
@@ -89,7 +90,7 @@ export function waterAvatar(player:WaterPlayer){
    rig.pose(shoulders,elbows,hands,pivot.quaternion);
   },
   diagnostic:()=>({weapon:weapon.kind,reload:progress,recoil:kick,muzzle:weapon.muzzle.toArray(),hands:hands.map(h=>h.toArray()),gripError:hands[1].distanceTo(weapon.rightGrip.clone().applyMatrix4(pivot.matrix)),drawMeshes:(()=>{let n=0;a.group.traverse(o=>{if(o instanceof T.Mesh&&o.visible)n++;});return n;})()}),
-  dispose:()=>{a.dispose();},
+  dispose:()=>{if(badge){badge.material.map?.dispose();badge.material.dispose();}a.dispose();},
  };
 }
 export function firstPersonWaterRig(camera:T.Camera){

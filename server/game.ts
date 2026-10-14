@@ -1,7 +1,8 @@
+import {RoamNpcs,ROAM_NPC} from './roam-npcs';
 import {Orchard} from '../shared/fruit';
 import {FishingRoom,FISHING} from '../shared/fishing';
 import {petAction,validPetAction,stepPet,PETS,type Pet} from '../shared/pets';
-import {createShuttles,stepShuttleTraffic,shuttleBody,shuttleExit,shuttleContains,validShuttleAction,SHUTTLE,type Shuttle,type ShuttleReply} from '../shared/shuttle';
+import {createShuttles,stepShuttleTraffic,shuttleBody,shuttleExit,shuttleContains,validShuttleAction,SHUTTLE,SHUTTLE_ROUTE,type Shuttle,type ShuttleReply} from '../shared/shuttle';
 import {createVehicles,validDrive,validVehicleAction,stepVehicle,vehicleExit,vehicleContains,VEHICLE,type Vehicle,type DriveInput,type VehicleReply} from '../shared/vehicles';
 import {defaultAppearance} from '../shared/appearance';
 import {fighterState,fighterMovement} from '../shared/fighter';
@@ -14,16 +15,18 @@ import type {Player,Input,Snapshot,Punch,AttackReply,Point} from '../shared/type
 import {validateAttack,punchTarget,respawnPoints,chooseRespawn,regenerateHealth,validateCombatAction,resolveDefense} from './combat';
 import {AccountStore,AccountError} from './accounts';
 type Session={lastShuttleSeq:number;lastShuttleAction:number;drive:DriveInput;lastDrive:number;lastDriveSeq:number;lastVehicleSeq:number;lastVehicleAction:number;player:Player;token:string;socketId:string;input:Input;lastInput:number;lastChat:number;budgetStart:number;inputs:number;lastSeq:number;lastAttackSeq:number;lastTeleport:number;regenAt:number;effortAt:number;lastActionSeq:number;actionWindow:number;actions:number;joined:number};
-export function createGame(http:HttpServer,options:{databasePath?:string;presence?:Set<string>;initialTraffic?:{vehicles:Vehicle[];shuttles:Shuttle[]}}={}){
+export function createGame(http:HttpServer,options:{databasePath?:string;presence?:Set<string>;npcs?:boolean;initialTraffic?:{vehicles:Vehicle[];shuttles:Shuttle[]}}={}){
  const accounts=new AccountStore(options.databasePath),pendingAuth=new Set<Promise<void>>();let closing=false;
  const io=new Server(http,{maxHttpBufferSize:4096,pingInterval:CONFIG.pingInterval,pingTimeout:CONFIG.pingTimeout,serveClient:false});
  const sessions=new Map<string,Session>(),recoveries=new Map<string,{player:Player;expires:number;lastChat:number}>();
  const fishing=new FishingRoom(),orchard=new Orchard();
  const pets=accounts.loadPets(),dogTargets=new Map<string,{targetId:string;until:number}>(),petBudgets=new Map<string,number>();
  const vehicles=options.initialTraffic?.vehicles.map(v=>({...v}))||createVehicles(),shuttles=options.initialTraffic?.shuttles.map(b=>({...b,passengerIds:[...b.passengerIds]}))||createShuttles(Date.now());const spawnPool=respawnPoints();
+ const npcs=new RoamNpcs(p=>!vehicles.some(v=>vehicleContains(v,p,.8))&&!shuttles.some(b=>shuttleContains(b,p,1))&&!SHUTTLE_ROUTE.some(q=>Math.abs(q.x-p.x)<7&&Math.abs(q.z-p.z)<7));
  const safeLanding=(requested:Point,people:Point[]=[])=>{const point=landingPoint(requested,people);if(!point)return;const car=vehicles.find(v=>vehicleContains(v,point));if(car)return vehicleExit(car,vehicles,people,p=>shuttles.every(b=>!shuttleContains(b,p)));const bus=shuttles.find(b=>shuttleContains(b,point));return bus?shuttleExit(bus,vehicles,shuttles,people):point;};
  let ticks=0,rejected=0;const authBudgets=new Map<string,{since:number;count:number}>();
- const snapshot=():Snapshot=>({time:Date.now(),orchard:orchard.snapshot(),fishing:fishing.snapshot(),pets:pets.map(p=>({...p})),players:[...sessions.values()].map(s=>({...s.player,appearance:s.player.appearance?{...s.player.appearance}:undefined})),count:sessions.size,vehicles:vehicles.map(v=>({...v})),shuttles:shuttles.map(b=>({...b,passengerIds:[...b.passengerIds]}))});
+ const fighters=()=>[...sessions.values()].map(s=>s.player).concat(npcs.players());
+ const snapshot=():Snapshot=>({npcCount:npcs.players().length,time:Date.now(),orchard:orchard.snapshot(),fishing:fishing.snapshot(),pets:pets.map(p=>({...p})),players:fighters().map(p=>({...p,appearance:p.appearance?{...p.appearance}:undefined})),count:sessions.size,vehicles:vehicles.map(v=>({...v})),shuttles:shuttles.map(b=>({...b,passengerIds:[...b.passengerIds]}))});
  const publish=()=>io.emit('world',snapshot());
  const releaseVehicle=(s:Session,force=false)=>{
   const car=vehicles.find(v=>v.id===s.player.vehicleId);if(!car){s.player.vehicleId=null;return true;}
@@ -37,22 +40,25 @@ export function createGame(http:HttpServer,options:{databasePath?:string;presenc
   const point=shuttleExit(bus,vehicles,shuttles,people)||(force?safeLanding(campus.spawnPoints[0],people):undefined);if(!point)return false;
   bus.passengerIds=bus.passengerIds.filter(id=>id!==s.player.id);bus.speed=0;bus.dwellUntil=Math.max(bus.dwellUntil,Date.now()+SHUTTLE.exitPauseMs);s.player.shuttleId=null;Object.assign(s.player,point,{moving:false,relocation:s.player.relocation+1});s.input={seq:s.lastSeq,x:0,z:0,run:false};s.lastInput=0;return true;
  };
- const remove=(socket:Socket,allowResume:boolean)=>{const s=sessions.get(socket.id);if(!s)return;releaseVehicle(s,true);releaseShuttle(s,true);s.player.guardUntil=s.player.heavyUntil=s.player.dodgeUntil=0;accounts.save([s.player]);sessions.delete(socket.id);options.presence?.delete(s.player.id);fishing.remove(s.player.id);orchard.remove(s.player.id);petBudgets.delete(socket.id);for(const p of pets.filter(p=>p.ownerId===s.player.id))dogTargets.delete(p.id);accounts.savePets(pets);if(allowResume)recoveries.set(s.token,{player:{...s.player,moving:false},expires:Date.now()+CONFIG.resumeMs,lastChat:s.lastChat});publish();};
- const strike=(s:Session,kind:'light'|'heavy',now:number,dog?:Pet,dogTarget?:Player)=>{
-  const target=dog?dogTarget:punchTarget(s.player,[...sessions.values()].map(s=>s.player),now);
+ const remove=(socket:Socket,allowResume:boolean)=>{const s=sessions.get(socket.id);if(!s)return;releaseVehicle(s,true);releaseShuttle(s,true);s.player.guardUntil=s.player.heavyUntil=s.player.dodgeUntil=0;accounts.save([s.player]);sessions.delete(socket.id);if(options.npcs)npcs.sync([...sessions.values()].map(s=>s.player),Date.now());options.presence?.delete(s.player.id);fishing.remove(s.player.id);orchard.remove(s.player.id);petBudgets.delete(socket.id);for(const p of pets.filter(p=>p.ownerId===s.player.id))dogTargets.delete(p.id);accounts.savePets(pets);if(allowResume)recoveries.set(s.token,{player:{...s.player,moving:false},expires:Date.now()+CONFIG.resumeMs,lastChat:s.lastChat});publish();};
+ const strike=(s:Pick<Session,'player'>,kind:'light'|'heavy',now:number,dog?:Pet,dogTarget?:Player)=>{
+  const target=dog?dogTarget:punchTarget(s.player,fighters().filter(p=>!s.player.npc||!p.npc),now);
   const result=target?resolveDefense(dog?{...s.player,...dog,yaw:Math.atan2(target.x-dog.x,target.z-dog.z)}:s.player,target,kind,now):{damage:0};
+  if(s.player.npc)result.damage=Math.ceil(result.damage*ROAM_NPC.damageScale);
   if(dog)result.damage=Math.min(PETS.assistDamage,result.damage);
   else if(target)for(const pet of pets.filter(p=>p.kind==='dog'&&p.ownerId===s.player.id))dogTargets.set(pet.id,{targetId:target.id,until:now+PETS.assistWindow});
   const punch:Punch={attackerId:s.player.id,targetId:target?.id||null,at:now,damage:result.damage,knockout:false,kind,...('defense' in result?{defense:result.defense}: {})};
   if(target){
    target.hp=Math.max(0,target.hp-result.damage);target.hitAt=now;
-   const victim=[...sessions.values()].find(v=>v.player.id===target.id)!;victim.effortAt=now;
+   const victim=[...sessions.values()].find(v=>v.player.id===target.id);if(victim)victim.effortAt=now;if(target.npc)npcs.provoke(target.id,s.player,now);
    if(target.hp===0){
-    punch.knockout=true;s.player.kills++;target.deaths++;target.life++;
-    const energy=COMBAT.maxEnergy;
-    Object.assign(target,chooseRespawn(target,[...sessions.values()].map(v=>v.player).filter(p=>p.id!==target.id),spawnPool),fighterState(),{energy,hp:COMBAT.maxHealth,moving:false,hitAt:0,protectedUntil:now+COMBAT.respawnProtectionMs});
-    victim.input={seq:victim.lastSeq,x:0,z:0,run:false};victim.lastInput=0;
-    accounts.save([s.player,target]);
+    punch.knockout=true;
+    if(target.npc){s.player.npcWins=(s.player.npcWins||0)+1;npcs.knockedOut(target.id,now);}
+    else{if(s.player.npc)target.npcFalls=(target.npcFalls||0)+1;else{s.player.kills++;target.deaths++;}target.life++;
+     Object.assign(target,chooseRespawn(target,fighters().filter(p=>p.id!==target.id),spawnPool),fighterState(),{hp:COMBAT.maxHealth,moving:false,hitAt:0,protectedUntil:now+COMBAT.respawnProtectionMs});
+     if(victim){victim.input={seq:victim.lastSeq,x:0,z:0,run:false};victim.lastInput=0;}
+    }
+    accounts.save([s.player,target].filter(p=>!p.npc));
    }
   }
   io.emit('punch',punch);publish();return punch;
@@ -86,7 +92,7 @@ export function createGame(http:HttpServer,options:{databasePath?:string;presenc
       accounts.save([player]);
       options.presence?.add(account.id);
       sessions.set(socket.id,{lastShuttleSeq:-1,lastShuttleAction:0,drive:{seq:-1,throttle:0,steer:0,brake:true},lastDrive:0,lastDriveSeq:-1,lastVehicleSeq:-1,lastVehicleAction:0,player,token,socketId:socket.id,input:{seq:-1,x:0,z:0,run:false},lastInput:0,lastChat:previous?.lastChat||0,budgetStart:now,inputs:0,lastSeq:-1,lastAttackSeq:-1,lastTeleport:0,regenAt:now,effortAt:now,lastActionSeq:-1,actionWindow:now,actions:0,joined:now});
-      socket.join(player.id);if(typeof ack==='function')ack({playerId:player.id,username:account.username,token,snapshot:snapshot(),resumed:resume||o.mode==='login'});publish();
+      if(options.npcs)npcs.sync([...sessions.values()].map(s=>s.player),now);socket.join(player.id);if(typeof ack==='function')ack({playerId:player.id,username:account.username,token,snapshot:snapshot(),resumed:resume||o.mode==='login'});publish();
      }catch(error){if(error instanceof AccountError)reply(error.message,error.code);else{console.error('Account operation failed:',error instanceof Error?error.message:'unknown');reply('账号服务暂不可用，请稍后再试。','unavailable');}}
      finally{joining=false;}
     })();pendingAuth.add(task);void task.finally(()=>pendingAuth.delete(task));
@@ -194,7 +200,8 @@ export function createGame(http:HttpServer,options:{databasePath?:string;presenc
  else if(now-s.effortAt>=COMBAT.energyRegenDelayMs)s.player.energy=Math.min(COMBAT.maxEnergy,s.player.energy+COMBAT.energyRegenPerSecond*CONFIG.tickMs/1000);
  s.player.energy=Math.round(s.player.energy*10)/10;const bus=shuttles.find(b=>b.id===s.player.shuttleId);if(bus){s.player.x=bus.x;s.player.z=bus.z;s.player.yaw=bus.yaw;s.player.moving=false;s.player.ack=s.input.seq;continue;}const input=now-s.lastInput>CONFIG.inputTimeoutMs?{...s.input,x:0,z:0}:s.input;const car=vehicles.find(v=>v.id===s.player.vehicleId);if(car){const control=now-s.lastDrive>VEHICLE.inputTimeout?{throttle:0,steer:0,brake:true}:s.drive;Object.assign(car,stepVehicle(car,control,CONFIG.tickMs/1000,vehicles,[...sessions.values()].filter(o=>o!==s&&!o.player.vehicleId&&!o.player.shuttleId).map(o=>o.player),shuttles.map(shuttleBody)));s.player.x=car.x;s.player.z=car.z;s.player.yaw=car.yaw;s.player.moving=false;s.player.ack=s.input.seq;continue;}
  const moved=fighterMovement(s.player,input,CONFIG.tickMs/1000,now),p=(vehicles.some(v=>vehicleContains(v,moved))||shuttles.some(b=>shuttleContains(b,moved)))?{x:s.player.x,z:s.player.z}:moved;s.player.moving=Math.hypot(p.x-s.player.x,p.z-s.player.z)>.0001;s.player.x=p.x;s.player.z=p.z;if(Math.hypot(input.x,input.z)>.01&&s.player.heavyUntil<=now&&s.player.dodgeUntil<=now&&s.player.stunnedUntil<=now)s.player.yaw=Math.atan2(input.x,input.z);s.player.ack=s.input.seq;}
- for(const pet of pets){const owner=[...sessions.values()].find(s=>s.player.id===pet.ownerId);stepPet(pet,owner?.player,now,CONFIG.tickMs/1000);const intent=dogTargets.get(pet.id),target=intent&&[...sessions.values()].find(s=>s.player.id===intent.targetId)?.player;if(intent&&intent.until<now)dogTargets.delete(pet.id);if(owner&&target&&intent&&intent.until>=now&&!owner.player.vehicleId&&!owner.player.shuttleId&&!target.vehicleId&&!target.shuttleId&&target.protectedUntil<=now&&target.dodgeUntil<=now&&Math.hypot(target.x-owner.player.x,target.z-owner.player.z)<8&&Math.hypot(target.x-pet.x,target.z-pet.z)<4&&Array.from({length:20},(_,i)=>({x:pet.x+(target.x-pet.x)*i/20,z:pet.z+(target.z-pet.z)*i/20})).every(p=>!blocked(p)&&vehicles.every(v=>!vehicleContains(v,p))&&shuttles.every(b=>!shuttleContains(b,p)))&&now-pet.attackAt>=PETS.assistCooldown){pet.attackAt=now;strike(owner,'light',now,pet,target);}}
+ if(options.npcs)npcs.step([...sessions.values()].map(s=>s.player),now,p=>strike({player:p},'light',now));
+ for(const pet of pets){const owner=[...sessions.values()].find(s=>s.player.id===pet.ownerId);stepPet(pet,owner?.player,now,CONFIG.tickMs/1000);const intent=dogTargets.get(pet.id),target=intent&&fighters().find(p=>p.id===intent.targetId);if(intent&&intent.until<now)dogTargets.delete(pet.id);if(owner&&target&&intent&&intent.until>=now&&!owner.player.vehicleId&&!owner.player.shuttleId&&!target.vehicleId&&!target.shuttleId&&target.protectedUntil<=now&&target.dodgeUntil<=now&&Math.hypot(target.x-owner.player.x,target.z-owner.player.z)<8&&Math.hypot(target.x-pet.x,target.z-pet.z)<4&&Array.from({length:20},(_,i)=>({x:pet.x+(target.x-pet.x)*i/20,z:pet.z+(target.z-pet.z)*i/20})).every(p=>!blocked(p)&&vehicles.every(v=>!vehicleContains(v,p))&&shuttles.every(b=>!shuttleContains(b,p)))&&now-pet.attackAt>=PETS.assistCooldown){pet.attackAt=now;strike(owner,'light',now,pet,target);}}
  for(const notice of fishing.tick([...sessions.values()].map(s=>s.player),now))io.to(notice.playerId).emit('fishing-notice',notice.message);
  ticks++;if(ticks%(1000/CONFIG.tickMs)===0){accounts.save([...sessions.values()].map(s=>s.player));accounts.savePets(pets);for(const[ip,b]of authBudgets)if(now-b.since>60000)authBudgets.delete(ip);}
  if(ticks%(CONFIG.snapshotMs/CONFIG.tickMs)===0)publish();for(const[token,r]of recoveries)if(r.expires<now)recoveries.delete(token);},CONFIG.tickMs);

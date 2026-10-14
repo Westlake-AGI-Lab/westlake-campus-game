@@ -47,7 +47,7 @@ const frames:number[]=[];let loadingStarted=performance.now(),readyMs=0,snapshot
 const colors=$('colors');COLORS.forEach((color,i)=>{const b=document.createElement('button');b.type='button';b.className='color-choice'+(i===selectedColor?' selected':'');b.style.background=color;b.ariaLabel=['松绿','暖橙','雾蓝','莓紫','岩灰','麦黄'][i];b.setAttribute('aria-pressed',String(i===selectedColor));b.onclick=()=>{selectedColor=i;for(const[c,j]of Array.from(colors.children).map((c,j)=>[c,j] as const)){c.classList.toggle('selected',j===i);c.setAttribute('aria-pressed',String(j===i));}account.setCoat(i);};colors.append(b);});
 account.setCoat(selectedColor);
 document.getElementById('app-version')!.textContent=`v${APP_VERSION}`;
-function status(text:string){$('status').textContent=text;$('status-dot').classList.toggle('connected',connected);$('online').textContent=connected?`${world.count} / ${CONFIG.maxPlayers} 人在线`:'— 人在线';}
+function status(text:string){$('status').textContent=text;$('status-dot').classList.toggle('connected',connected);$('online').textContent=connected?`${world.count} / ${CONFIG.maxPlayers} 人在线${world.npcCount?` · ${world.npcCount} NPC`:""}`:'— 人在线';}
 let toastTimer:number;function toast(text:string){$('toast').textContent=text;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=window.setTimeout(()=>$('toast').classList.remove('visible'),3000);}
 function removeEntity(id:string){const e=entities.get(id);if(!e)return;scene.remove(e.group);e.label.remove();e.dispose();entities.delete(id);bubbles.delete(id);}
 function paintHealth(track:HTMLElement,fill:HTMLElement,hp:number){track.setAttribute('aria-valuenow',String(hp));fill.style.width=`${hp/COMBAT.maxHealth*100}%`;fill.style.background=hp>50?'#3c8b73':hp>25?'#c98a43':'#c35f50';}
@@ -57,8 +57,8 @@ function updateWorld(snapshot:Snapshot){
  for(const p of world.players){
   let e=entities.get(p.id);const respawned=!!e&&e.target.life!==p.life;const relocated=!!e&&e.target.relocation!==p.relocation;
   if(!e){
-   const a=avatar(p.color,p.appearance),label=document.createElement('div');label.className='player-label';label.dataset.playerId=p.id;
-   const name=document.createElement('div');name.className='nickname';name.textContent=p.name+(p.id===playerId?' · 你':'');
+   const a=avatar(p.color,p.appearance),label=document.createElement('div');label.className='player-label';label.dataset.playerId=p.id;label.dataset.npc=String(!!p.npc);
+   const name=document.createElement('div');name.className='nickname';name.textContent=p.name+(p.npc?' · NPC':p.id===playerId?' · 你':'');
    const bubble=document.createElement('div');bubble.className='bubble';bubble.hidden=true;
    const health=document.createElement('div');health.className='player-health';health.setAttribute('role','progressbar');health.setAttribute('aria-label',p.name+'生命值');health.setAttribute('aria-valuemin','0');health.setAttribute('aria-valuemax',String(COMBAT.maxHealth));
    const track=document.createElement('div');track.className='health-track';const healthFill=document.createElement('i');track.append(healthFill);
@@ -67,7 +67,7 @@ function updateWorld(snapshot:Snapshot){
    e={...a,label,name,bubble,health,healthFill,healthNumber,stats,target:p};e.group.position.set(p.x,heightAt(p),p.z);scene.add(e.group);entities.set(p.id,e);
   }
   if(respawned||relocated){e.group.position.set(p.x,heightAt(p),p.z);bubbles.delete(p.id);}
-  e.target=p;paintHealth(e.health,e.healthFill,p.hp);e.healthNumber.textContent=String(p.hp);e.stats.textContent=`击倒 ${p.kills} · 倒地 ${p.deaths}`;e.stats.dataset.kills=String(p.kills);e.stats.dataset.deaths=String(p.deaths);
+  e.target=p;paintHealth(e.health,e.healthFill,p.hp);e.healthNumber.textContent=String(p.hp);e.stats.textContent=p.npc?"陪练角色":`击倒 ${p.kills} · 倒地 ${p.deaths}`;e.stats.dataset.kills=String(p.kills);e.stats.dataset.deaths=String(p.deaths);
   if(p.id===playerId){
    const remaining=p.nextAttackAt-snapshot.time;
    if(remaining>0)attackNextAt=Math.max(attackNextAt,snapshotAt+remaining+50);
@@ -75,7 +75,7 @@ function updateWorld(snapshot:Snapshot){
    else local={...p,x:T.MathUtils.lerp(local.x,p.x,.4),z:T.MathUtils.lerp(local.z,p.z,.4),yaw:local.moving?local.yaw:p.yaw};
    if(relocated){clearInput();navigation?.displaced();}
    if(respawned){navigation?.displaced();clearInput();toast('已随机满血复活 · 2 秒保护，主动出拳结束保护');}
-   paintHealth($('my-health'),$('my-health').querySelector('i')!,p.hp);$('my-hp').textContent=`${p.hp} / ${COMBAT.maxHealth}`;$('my-kills').textContent=String(p.kills);$('my-deaths').textContent=String(p.deaths);
+   paintHealth($('my-health'),$('my-health').querySelector('i')!,p.hp);$('my-hp').textContent=`${p.hp} / ${COMBAT.maxHealth}`;$('my-kills').textContent=String(p.kills);$('my-deaths').textContent=String(p.deaths);$('npc-practice').textContent=world.npcCount?`陪练击倒 ${p.npcWins||0} · 陪练倒地 ${p.npcFalls||0}`:'';
   }
  }
  status('已连接');
@@ -181,7 +181,7 @@ const fishing=fishingScene(scene,(action,reply)=>socket.emit('fishing',action,(r
 let lastTime=performance.now();const petsUI=petUI((action,reply)=>{socket.emit('pet',action,reply);},toast,clearInput);
 function frame(now:number){const elapsed=now-lastTime,dt=Math.min(elapsed/1000,.05);lastTime=now;if(connected&&document.visibilityState==='visible'){frames.push(elapsed);if(frames.length>3000)frames.shift();}const serverNow=world.time+now-snapshotAt;if(local&&connected&&!local.vehicleId&&!local.shuttleId){const i=intent(),moved=fighterMovement(local,i,dt,serverNow),p=((world.vehicles||[]).some(v=>vehicleContains(v,moved))||(world.shuttles||[]).some(b=>shuttleContains(b,moved)))?{x:local.x,z:local.z}:moved;local.moving=Math.hypot(p.x-local.x,p.z-local.z)>.0001;local.x=p.x;local.z=p.z;if(local.moving&&local.heavyUntil<=serverNow&&local.dodgeUntil<=serverNow&&local.stunnedUntil<=serverNow)local.yaw=Math.atan2(i.x,i.z);}
 
-cars.animate(dt);buses.animate(dt);for(const[id,e]of entities){const p=id===playerId&&local?local:e.target;e.group.visible=!p.vehicleId&&!p.shuttleId;if(id===playerId)e.group.position.set(p.x,heightAt(p),p.z);else{const alpha=1-Math.exp(-dt*13);e.group.position.x=T.MathUtils.lerp(e.group.position.x,p.x,alpha);e.group.position.z=T.MathUtils.lerp(e.group.position.z,p.z,alpha);}e.group.position.y=heightAt({x:e.group.position.x,z:e.group.position.z});let delta=p.yaw-e.group.rotation.y;delta=Math.atan2(Math.sin(delta),Math.cos(delta));e.group.rotation.y+=delta*Math.min(1,dt*15);const size=T.MathUtils.lerp(e.group.scale.x,playerSize(p),1-Math.exp(-dt*8));e.group.scale.setScalar(size);e.animate(now/1000,p.moving,(serverNow-p.punchAt)/COMBAT.punchAnimationMs,(serverNow-p.hitAt)/COMBAT.hitAnimationMs,p.protectedUntil>serverNow,fighterStatus(p,serverNow));e.label.dataset.state=fighterStatus(p,serverNow);e.label.classList.toggle('protected',p.protectedUntil>serverNow);const bubble=bubbles.get(id);e.bubble.hidden=!bubble||bubble.expiresAt<Date.now();if(bubble&&!e.bubble.hidden)e.bubble.textContent=MESSAGES[bubble.id as keyof typeof MESSAGES];}
+cars.animate(dt);buses.animate(dt);for(const[id,e]of entities){const p=id===playerId&&local?local:e.target;e.group.visible=!p.vehicleId&&!p.shuttleId&&(!p.npc||p.hp>0);if(id===playerId)e.group.position.set(p.x,heightAt(p),p.z);else{const alpha=1-Math.exp(-dt*13);e.group.position.x=T.MathUtils.lerp(e.group.position.x,p.x,alpha);e.group.position.z=T.MathUtils.lerp(e.group.position.z,p.z,alpha);}e.group.position.y=heightAt({x:e.group.position.x,z:e.group.position.z});let delta=p.yaw-e.group.rotation.y;delta=Math.atan2(Math.sin(delta),Math.cos(delta));e.group.rotation.y+=delta*Math.min(1,dt*15);const size=T.MathUtils.lerp(e.group.scale.x,playerSize(p),1-Math.exp(-dt*8));e.group.scale.setScalar(size);e.animate(now/1000,p.moving,(serverNow-p.punchAt)/COMBAT.punchAnimationMs,(serverNow-p.hitAt)/COMBAT.hitAnimationMs,p.protectedUntil>serverNow,fighterStatus(p,serverNow));e.label.dataset.state=fighterStatus(p,serverNow);e.label.classList.toggle('protected',p.protectedUntil>serverNow);const bubble=bubbles.get(id);e.bubble.hidden=!bubble||bubble.expiresAt<Date.now();if(bubble&&!e.bubble.hidden)e.bubble.textContent=MESSAGES[bubble.id as keyof typeof MESSAGES];}
 const attackButton=$<HTMLButtonElement>('attack-toggle');const busy=!!local&&(!!local.vehicleId||!!local.shuttleId||local.stunnedUntil>serverNow||local.dodgeUntil>serverNow||local.guardUntil>serverNow||local.heavyUntil>serverNow);attackButton.disabled=blockedInput()||busy||now<attackNextAt||!!local&&local.energy<COMBAT.lightEnergy;attackButton.setAttribute('aria-label',now<attackNextAt?'拳击冷却中':'拳击 · J 或空格');$('combat-protection').hidden=!local||local.protectedUntil<=serverNow;if(local&&local.protectedUntil>serverNow)$('combat-protection').textContent=`保护 ${Math.ceil((local.protectedUntil-serverNow)/1000)}s`;
 if(local){
  const energy=Math.round(local.energy);$('my-energy').textContent=`${energy} / ${COMBAT.maxEnergy}`;$('energy-track').setAttribute('aria-valuenow',String(energy));$('energy-track').querySelector<HTMLElement>('i')!.style.width=`${energy}%`;
@@ -207,7 +207,7 @@ else{
  camera.position.copy(target).add(offset);camera.position.y=Math.max(camera.position.y,1);camera.lookAt(target);camera.fov=52;camera.near=Math.max(.15,distance*.005);camera.updateProjectionMatrix();sun.position.set(base.x-180,300,base.z+180);sun.target.position.set(base.x,0,base.z);sun.target.updateMatrixWorld();
 }
 
-camera.updateMatrixWorld();for(const[id,e]of entities){const p=e.group.position.clone().add(new T.Vector3(0,2.3*e.group.scale.y,0));const projected=p.project(camera),dist=camera.position.distanceTo(e.group.position);e.label.hidden=!!e.target.shuttleId||projected.z>1||projected.z<-1||Math.abs(projected.x)>1.2||Math.abs(projected.y)>1.2||dist>80;e.label.style.left=`${(projected.x*.5+.5)*innerWidth}px`;e.label.style.top=`${(-projected.y*.5+.5)*innerHeight}px`;}
+camera.updateMatrixWorld();for(const[id,e]of entities){const p=e.group.position.clone().add(new T.Vector3(0,2.3*e.group.scale.y,0));const projected=p.project(camera),dist=camera.position.distanceTo(e.group.position);e.label.hidden=!!e.target.shuttleId||!!e.target.npc&&e.target.hp<=0||projected.z>1||projected.z<-1||Math.abs(projected.x)>1.2||Math.abs(projected.y)>1.2||dist>80;e.label.style.left=`${(projected.x*.5+.5)*innerWidth}px`;e.label.style.top=`${(-projected.y*.5+.5)*innerHeight}px`;}
 overview.update(camera,overviewActive,local);navigation?.project(camera);buses.project(camera);
 const currentBus=(world.shuttles||[]).find(b=>b.id===local?.shuttleId),nearBus=local?buses.nearest(local,world.shuttles||[]):undefined;const currentCar=(world.vehicles||[]).find(v=>v.id===local?.vehicleId),nearby=local?cars.nearest(local,world.vehicles||[]):undefined;
  rail.classList.toggle('transport-context',!!(currentBus||currentCar||nearby||nearBus));
